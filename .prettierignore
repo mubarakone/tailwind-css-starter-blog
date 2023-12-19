@@ -1,0 +1,25 @@
+# Ignore artifacts:
+build
+coverage
+
+# Ignore all HTML files:
+**/*.html
+
+# Ignore all JS files:
+**/*.js
+
+# Ignore all JSX files:
+**/*.jsx
+
+# Ignore all TS files:
+**/*.ts
+
+# Ignore all TSX files:
+**/*.tsx
+
+
+# Ignore all MD files:
+**/*.md
+
+# Ignore all MDX files:
+**/*.mdx

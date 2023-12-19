@@ -33,3 +33,14 @@ input:-webkit-autofill:focus {
 .katex-display {
   overflow: auto hidden;
 }
+
+.dynamic-shadow-dom {
+  --dynamic-font-family-primary: "Roboto", sans-serif;
+  --dynamic-font-family-primary: 'Space Grotesk', sans-serif;
+  --dynamic-widget__container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Full height of the viewport */
+  } 
+}
