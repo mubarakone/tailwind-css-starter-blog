@@ -145,12 +145,6 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
 //     hash: `0x${transactionHash}`,
 //   })
 
-    console.log('isIdle: ', isIdle)
-    console.log('isSigning: ', isSigning)
-    console.log('isFetching: ', isFetching)
-    console.log('isSuccess: ', isSuccess)
-    console.log('isError: ', isError)
-
   useEffect(() => {
 
     if (isIdle) {

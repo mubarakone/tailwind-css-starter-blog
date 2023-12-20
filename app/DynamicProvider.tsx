@@ -9,7 +9,7 @@ import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
 export const DynamicProvider = (props: PropsWithChildren) => {
 
     const cssOverrides = `
-    .dynamic-shadow-dom {
+    .dynamic-shadow-dom-content {
         --dynamic-font-family-primary: "Roboto", sans-serif;
         --dynamic-font-family-primary: 'Space Grotesk', sans-serif;
         --dynamic-widget__container {

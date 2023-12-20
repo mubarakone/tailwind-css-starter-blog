@@ -34,7 +34,9 @@ export const SubscriptionAd = () => {
                 >
                   0.0001 ETH
                 </button>
-              : <DynamicWidget innerButtonComponent={'Subscribe'} />
+              : <div className='flex justify-center'>
+                  <DynamicWidget innerButtonComponent={'Subscribe'} />
+                </div> 
             }
           </div>
         </div>
