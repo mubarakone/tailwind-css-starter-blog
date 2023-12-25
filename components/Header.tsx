@@ -1,4 +1,5 @@
 'use client'
+import { Suspense } from 'react'
 import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
 import Logo from '@/data/logo.svg'
@@ -42,7 +43,10 @@ const Header = () => {
         <SearchButton />
         <ThemeSwitch />
         <MobileNav />
-        <DynamicWidget innerButtonComponent={'Sign In'}/>
+        <Suspense fallback={<p>Loading wallet...</p>}>
+          <DynamicWidget innerButtonComponent={'Sign In'}/>
+        </Suspense>
+        
       </div>
     </header>
   )

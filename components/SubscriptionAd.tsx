@@ -2,6 +2,7 @@ import { DynamicWidget } from '@dynamic-labs/sdk-react-core'
 import { useAccount, useBalance } from 'wagmi'
 import Modal from './Modal';
 import { useModal } from 'contexts/ModalContext';
+import { Suspense } from 'react';
 
 export const SubscriptionAd = () => {
     const { address, isConnecting, isDisconnected } = useAccount()
@@ -15,7 +16,7 @@ export const SubscriptionAd = () => {
     console.log({data})
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center p-4 inset-x-0 top-150">
+        <div className="fixed inset-0 flex items-center justify-center p-4 inset-x-0 lg:top-[150px] md:top-[150px] sm:top-[150px]">
           <div className="text-center"> {/* This div will center the content vertically and horizontally */}
             <h2 className="text-4xl font-extrabold text-white mb-4">
               Unlimited Article Access
@@ -35,7 +36,10 @@ export const SubscriptionAd = () => {
                   0.0001 ETH
                 </button>
               : <div className='flex justify-center'>
-                  <DynamicWidget innerButtonComponent={'Subscribe'} />
+                  <Suspense fallback={<p>Loading wallet...</p>}>
+                    <DynamicWidget innerButtonComponent={'Subscribe'} />
+                  </Suspense>
+                  
                 </div> 
             }
           </div>
