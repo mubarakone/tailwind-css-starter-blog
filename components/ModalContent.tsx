@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { Suspense } from 'react'
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
@@ -26,7 +26,7 @@ const ModalContent = React.forwardRef<HTMLButtonElement>((props, forwardRef) => 
           </div>
           <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
             <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
-              Send 0.0001 ETH + {feeData.data?.formatted?.gasPrice} ETH in fees
+              Send 0.0001 ETH + <Suspense fallback={<p>Loading network fees...</p>}>{feeData.data?.formatted?.gasPrice}</Suspense> ETH in fees
             </Dialog.Title>
             <div className="mt-2">
               <p className="text-sm text-gray-500">
