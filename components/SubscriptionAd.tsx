@@ -36,9 +36,9 @@ export const SubscriptionAd = () => {
                   0.0001 ETH
                 </button>
               : <div className='flex justify-center'>
-                  <Suspense fallback={<p>Loading wallet...</p>}>
+                  {/* <Suspense fallback={<p>Loading wallet...</p>}>
                     <DynamicWidget innerButtonComponent={'Subscribe'} />
-                  </Suspense>
+                  </Suspense> */}
                   
                 </div> 
             }

@@ -43,9 +43,9 @@ const Header = () => {
         <SearchButton />
         <ThemeSwitch />
         <MobileNav />
-        <Suspense fallback={<p>Loading wallet...</p>}>
+        {/* <Suspense fallback={<p>Loading wallet...</p>}>
           <DynamicWidget innerButtonComponent={'Sign In'}/>
-        </Suspense>
+        </Suspense> */}
         
       </div>
     </header>
