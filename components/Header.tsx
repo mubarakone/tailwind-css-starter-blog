@@ -7,7 +7,7 @@ import Link from './Link'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
-import { DynamicWidget } from '@dynamic-labs/sdk-react-core'
+// import { DynamicWidget } from '@dynamic-labs/sdk-react-core'
 
 const Header = () => {
   return (
