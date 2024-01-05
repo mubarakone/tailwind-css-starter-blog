@@ -7,7 +7,7 @@ import Link from './Link'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
-// import { DynamicWidget } from '@dynamic-labs/sdk-react-core'
+import { DynamicWidget } from '@dynamic-labs/sdk-react-core'
 
 const Header = () => {
   return (
@@ -43,9 +43,9 @@ const Header = () => {
         <SearchButton />
         <ThemeSwitch />
         <MobileNav />
-        {/* <Suspense fallback={<p>Loading wallet...</p>}>
+        <Suspense fallback={<p>Loading wallet...</p>}>
           <DynamicWidget innerButtonComponent={'Sign In'}/>
-        </Suspense> */}
+        </Suspense>
         
       </div>
     </header>

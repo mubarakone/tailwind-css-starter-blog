@@ -10,9 +10,9 @@ import Footer from '@/components/Footer'
 import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
-// import { DynamicProvider } from './DynamicProvider'
-// import { ModalProvider } from 'contexts/ModalContext'
-// import Modal from '@/components/Modal'
+import { DynamicProvider } from './DynamicProvider'
+import { ModalProvider } from 'contexts/ModalContext'
+import Modal from '@/components/Modal'
 
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -77,23 +77,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       <body className="bg-white text-black antialiased dark:bg-gray-950 dark:text-white">
-        {/* <DynamicProvider> */}
+        <DynamicProvider>
           <ThemeProviders>
-            {/* <ModalProvider> */}
+            <ModalProvider>
             <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
             <SectionContainer>
               <div className="flex h-screen flex-col justify-between font-sans">
                 <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
                 <Header />
-                {/* <Modal /> */}
+                <Modal />
                 <main className="mb-auto">{children}</main>
               </SearchProvider>
               <Footer />
             </div>
           </SectionContainer>
-          {/* </ModalProvider> */}
+          </ModalProvider>
         </ThemeProviders>
-      {/* </DynamicProvider> */}
+      </DynamicProvider>
       </body>
     </html>
   )

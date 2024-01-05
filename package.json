@@ -11,6 +11,10 @@
     "lint": "next lint --fix --dir pages --dir app --dir components --dir lib --dir layouts --dir scripts"
   },
   "dependencies": {
+    "@dynamic-labs/ethereum": "^1.0.4",
+    "@dynamic-labs/ethereum-aa": "^1.0.4",
+    "@dynamic-labs/sdk-react-core": "^1.0.4",
+    "@dynamic-labs/wagmi-connector": "^1.0.4",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@next/bundle-analyzer": "14.0.3",
