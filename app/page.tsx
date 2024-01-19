@@ -20,7 +20,7 @@ export default function Page() {
         try {
           const relatedApps: AppInfo[] = await navigator.getInstalledRelatedApps();
           const foundApp = relatedApps.find(app => app.id === "com.example.myapp");
-          if (foundAppTrue) {
+          if (foundApp) {
             router.push('/main');
           } else {
             router.push('/landing');
@@ -32,7 +32,7 @@ export default function Page() {
     };
 
     fetchRelatedApps();
-  }, [router, foundAppTrue]);
+  }, [router]);
 
   return <div>Loading...</div>
 }
