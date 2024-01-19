@@ -1,9 +1,38 @@
-import { sortPosts, allCoreContent } from 'pliny/utils/contentlayer'
-import { allBlogs } from 'contentlayer/generated'
-import Main from './Main'
+'use client'
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
-export default async function Page() {
-  const sortedPosts = sortPosts(allBlogs)
-  const posts = allCoreContent(sortedPosts)
-  return <Main posts={posts} />
+interface AppInfo {
+  id: string;
+  name: string;
+}
+
+export default function Page() {
+  
+  const router = useRouter();
+  const [psApp, setPsApp] = useState<AppInfo | null>(null);
+
+  const foundAppTrue = true;
+
+  useEffect(() => {
+    const fetchRelatedApps = async () => {
+      if (navigator.getInstalledRelatedApps) {
+        try {
+          const relatedApps: AppInfo[] = await navigator.getInstalledRelatedApps();
+          const foundApp = relatedApps.find(app => app.id === "com.example.myapp");
+          if (foundAppTrue) {
+            router.push('/main');
+          } else {
+            router.push('/landing');
+          }
+        } catch (error) {
+          console.log('Error fetching related apps', error);
+        }
+      }
+    };
+
+    fetchRelatedApps();
+  }, [router, foundAppTrue]);
+
+  return <div>Loading...</div>
 }
