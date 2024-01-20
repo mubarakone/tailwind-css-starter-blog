@@ -6,6 +6,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { CloudArrowUpIcon, LockClosedIcon, ServerIcon } from '@heroicons/react/20/solid'
 import { CheckIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation';
 
 const navigation = [
   { name: 'Product', href: '#' },
@@ -55,6 +56,8 @@ const features = [
 
 export default function Landing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const router = useRouter();
 
   return (
     <div className="bg-white">
@@ -164,11 +167,12 @@ export default function Landing() {
               fugiat veniam occaecat fugiat aliqua.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a
+              <button
+                onClick={() => router.push('/main')}
                 className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Get started
-              </a>
+              </button>
               <a className="text-sm font-semibold leading-6 text-gray-900">
                 Learn more <span aria-hidden="true">→</span>
               </a>
