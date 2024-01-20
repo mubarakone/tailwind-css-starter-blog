@@ -2,6 +2,7 @@
 
 const withPWA = require("@ducanh2912/next-pwa").default({
   dest: "public",
+  workboxOptions: "production",
 });
 
 const { withContentlayer } = require('next-contentlayer')
