@@ -16,7 +16,7 @@ export const SubscriptionAd = () => {
     console.log({data})
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center p-4 inset-x-0 lg:top-[150px] md:top-[150px] sm:top-[150px]">
+        <div className="fixed inset-x-0 flex items-center justify-center p-4 lg:top-[300px] md:top-[300px] sm:top-[300px]">
           <div className="text-center"> {/* This div will center the content vertically and horizontally */}
             <h2 className="text-4xl font-extrabold text-white mb-4">
               Unlimited Article Access
