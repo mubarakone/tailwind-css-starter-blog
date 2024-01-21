@@ -16815,6 +16815,7 @@ __metadata:
     viem: ^1.19.11
     wagmi: ^1.4.12
     webpack: ^5.89.0
+    workbox-webpack-plugin: ^7.0.0
   languageName: unknown
   linkType: soft
 
@@ -18320,7 +18321,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"workbox-webpack-plugin@npm:7.0.0":
+"workbox-webpack-plugin@npm:7.0.0, workbox-webpack-plugin@npm:^7.0.0":
   version: 7.0.0
   resolution: "workbox-webpack-plugin@npm:7.0.0"
   dependencies:

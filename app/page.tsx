@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Loading from './loading/page';
 
 interface AppInfo {
   id: string;
@@ -11,6 +12,7 @@ export default function Page() {
   
   const router = useRouter();
   const [psApp, setPsApp] = useState<AppInfo | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const foundAppTrue = true;
 
@@ -22,17 +24,29 @@ export default function Page() {
           const foundApp = relatedApps.find(app => app.id === "com.example.myapp");
           if (foundApp) {
             router.push('/main');
+            setLoading(false)
           } else {
             router.push('/landing');
+            setLoading(false)
           }
         } catch (error) {
           console.log('Error fetching related apps', error);
         }
       }
-    };
+    }
 
-    fetchRelatedApps();
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js');
+      });
+      fetchRelatedApps();
+    }
+
   }, [router]);
 
-  return <div>Loading...</div>
+  return (
+    <>
+      {loading && <Loading />}
+    </>
+  );
 }

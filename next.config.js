@@ -1,9 +1,11 @@
 // @ts-nocheck
 
-const withPWA = require("@ducanh2912/next-pwa").default({
-  dest: "public",
-  workboxOptions: "production",
-});
+// const withPWA = require("@ducanh2912/next-pwa").default({
+//   dest: "public",
+//   workboxOptions: "production",
+// });
+
+const { GenerateSW } = require('workbox-webpack-plugin');
 
 const { withContentlayer } = require('next-contentlayer')
 
@@ -101,7 +103,18 @@ const nextConfig = {
       },
     ];
   },
-  webpack: (config, options) => {
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.plugins.push(
+        new GenerateSW({
+          // Configure options here
+          swDest: 'sw.js',
+          clientsClaim: true,
+          skipWaiting: true,
+          // Other Workbox options
+        })
+      );
+    }
     config.module.rules.push({
       test: /\.svg$/,
       use: ['@svgr/webpack'],
@@ -112,7 +125,6 @@ const nextConfig = {
 };
 
 module.exports = withPlugins([
-  [withPWA],
   [withContentlayer],
   [withBundleAnalyzer],
   [withImages],
