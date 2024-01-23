@@ -25,7 +25,7 @@ export const DynamicProvider = (props: PropsWithChildren) => {
         <DynamicContextProvider
             settings={{
                 // Find your environment id at https://app.dynamic.xyz/dashboard/developer
-                environmentId: "d29f9b41-1009-4cca-92eb-8aa119656d4a",
+                environmentId: "332d9931-2b4d-4810-8519-5f70d9a832ce",
                 walletConnectors: [EthereumWalletConnectors, ZeroDevSmartWalletConnectors],
                 cssOverrides,
             }}
