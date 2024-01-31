@@ -12,6 +12,8 @@ interface IModalContext {
   modalContent: ReactNode | null;
   handleSubmit: (event: { preventDefault: () => void; }) => Promise<void>;
   isSuccess: boolean;
+  transactionHash: ReactNode | null;
+  errorMsg: ReactNode | null;
 }
 
 const ModalContext = createContext<IModalContext>({} as IModalContext);
@@ -29,6 +31,8 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   const [isFetching, setIsFetching] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [transactionHash, setTransactionHash] = useState();
+  const [errorMsg, setErrorMsg] = useState();
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -80,7 +84,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
         const result = await ecdsaProvider.sendUserOperation({
             target: '0x0bc58805c5e5b1b020afe6013eeb6bcda74df7f0',
             data: '0x',
-            value: parseEther('0.0001'),
+            value: parseEther('0.000005'),
             gasPrice: feeData.data?.maxFeePerGas ?? undefined,
         });
 
@@ -97,6 +101,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
           }
         } catch (error) {
           console.error('Error sending transaction:', error);
+          setErrorMsg(error)
           setIsFetching(false);
           setIsError(true);
         }
@@ -108,15 +113,18 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
                 result = await ecdsaProvider.waitForUserOperationTransaction(hash);
                 if (result) {
                    console.log('Transaction successful:', result);
+                   setTransactionHash(result)
                    setIsSuccess(true);
                   break; // Exit the loop if a successful receipt is found
                 } else if (!result) {
                   console.error('Transaction failed:', result);
+                  setErrorMsg(result)
                   setIsError(true);
                   break; // Exit the loop if a receipt indicates failure
                 }
               } catch (error) {
                 console.error('Attempt to fetch result failed:', error);
+                setErrorMsg(error)
                 // Optionally, handle specific errors differently here
               }
               if (i < attempts - 1) {
@@ -127,6 +135,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
             setIsFetching(false);
             // Set error state if no successful result was found after all attempts
             if (!result) {
+              setErrorMsg(result)
               setIsError(true);
               console.error('No successful result was found after all attempts')
             }
@@ -165,7 +174,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   }, [isIdle, isSigning, isFetching, isSuccess, isError]);
 
   return (
-    <ModalContext.Provider value={{ isModalOpen, openModal, closeModal, modalContent, handleSubmit, isSuccess}}>
+    <ModalContext.Provider value={{ isModalOpen, openModal, closeModal, modalContent, handleSubmit, isSuccess, transactionHash, errorMsg}}>
       {children}
     </ModalContext.Provider>
   );

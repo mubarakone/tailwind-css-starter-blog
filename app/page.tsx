@@ -23,7 +23,7 @@ export default function Page() {
           const relatedApps: AppInfo[] = await navigator.getInstalledRelatedApps();
           const foundApp = relatedApps.find(app => app.id === "https://tailwind-css-starter-blog-ivory-one.vercel.app");
           if (foundApp) {
-            router.push('/main');
+            router.push('/latest');
             setLoading(false)
           } else {
             router.push('/landing');

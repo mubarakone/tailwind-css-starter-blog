@@ -2,9 +2,11 @@
 
  export const Paywall = ({ isOpen, onClose, isPaywallOpen, children }) => {
     if (!isOpen) return null;
+
+    const imageUrl = `/istockphoto-681013136-612x612_ml_resize_x2.jpg`
   
     return (
-        <div className={`fixed inset-0 bg-gradient-to-r from-sky-500 to-pink-400 transition-opacity duration-500 ease-in-out ${isPaywallOpen ? 'opacity-100' : 'opacity-0'}`}>
+        <div style={{ backgroundImage: `url(${imageUrl})` }} className={`fixed inset-0 h-[900px] bg-cover bg-center transition-opacity duration-500 ease-in-out ${isPaywallOpen ? 'opacity-100' : 'opacity-0'}`}>
           <div className="bg-white p-5 border-t shadow-lg">
             <h3 className="text-lg leading-6 font-medium text-gray-900">Subscription Required</h3>
             <p className="mt-2 text-sm text-gray-500">

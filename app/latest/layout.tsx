@@ -21,7 +21,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             <SectionContainer>
               <div className="flex h-screen flex-col justify-between font-sans">
                 <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
-                <Header />
+                <Header style={{ zIndex: 20 }} />
                 <Modal />
                 <main className="mb-auto">{children}</main>
               </SearchProvider>

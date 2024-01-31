@@ -15,6 +15,29 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      // Add custom utilities for text borders
+      textStroke: {
+        '0': '0.5px',
+        '1': '1px',
+        '2': '2px',
+        '3': '3px',
+        // Add more sizes as needed
+      },
+      textStrokeColor: {
+        'black': 'black',
+        'white': 'white',
+        'red': 'red',
+        // Add more colors as needed
+      },
+      textShadow: {
+        // Define your text shadow styles here
+        'black': '2px 2px 2px rgba(0, 0, 0, 0.8)',
+        'white': '0 2px 4px rgba(255, 255, 255, 0.8)',
+        'black-md': '4px 4px 4px rgba(0, 0, 0, 0.7)',
+        'black-lg': '6px 6px 6px rgba(0, 0, 0, 5)',
+        'white-lg': '0px 3px 6px rgba(255, 255, 255, 0.8)',
+        // Add more as needed
+      },
       lineHeight: {
         11: '2.75rem',
         12: '3rem',
@@ -67,5 +90,5 @@ module.exports = {
       }),
     },
   },
-  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography'), require('tailwindcss-textshadow'),],
 }

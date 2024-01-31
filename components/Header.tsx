@@ -1,5 +1,5 @@
 'use client'
-import { Suspense } from 'react'
+import React, { Suspense, CSSProperties } from 'react'
 import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
 import Image from 'next/image'
@@ -9,9 +9,14 @@ import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
 import { DynamicWidget } from '@dynamic-labs/sdk-react-core'
 
-const Header = () => {
+interface HeaderProps {
+  style?: CSSProperties; // Define a style prop
+  // Include other props as necessary
+}
+
+const Header: React.FC<HeaderProps> = ({ style, ...props }) => {
   return (
-    <header className="flex items-center justify-between py-10">
+    <header style={style} className="flex items-center justify-between py-10">
       <div>
         <Link href="/" aria-label={siteMetadata.headerTitle}>
           <div className="flex items-center justify-between">
@@ -42,11 +47,10 @@ const Header = () => {
           ))}
         <SearchButton />
         <ThemeSwitch />
-        <MobileNav />
         <Suspense fallback={<p>Loading wallet...</p>}>
           <DynamicWidget innerButtonComponent={'Sign In'}/>
         </Suspense>
-        
+        <MobileNav />
       </div>
     </header>
   )

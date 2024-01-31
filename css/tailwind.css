@@ -33,3 +33,35 @@ input:-webkit-autofill:focus {
 .katex-display {
   overflow: auto hidden;
 }
+
+@layer utilities {
+  .text-stroke-0 {
+    -webkit-text-stroke-width: 0.5px;
+    text-stroke-width: 0.5px;
+  }
+  .text-stroke-1 {
+    -webkit-text-stroke-width: 1px;
+    text-stroke-width: 1px;
+  }
+  .text-stroke-2 {
+    -webkit-text-stroke-width: 2px;
+    text-stroke-width: 2px;
+  }
+  .text-stroke-3 {
+    -webkit-text-stroke-width: 3px;
+    text-stroke-width: 3px;
+  }
+  .text-stroke-color-black {
+    -webkit-text-stroke-color: black;
+    text-stroke-color: black;
+  }
+  .text-stroke-color-white {
+    -webkit-text-stroke-color: white;
+    text-stroke-color: white;
+  }
+  .text-stroke-color-red {
+    -webkit-text-stroke-color: red;
+    text-stroke-color: red;
+  }
+  /* Add more classes as needed */
+}

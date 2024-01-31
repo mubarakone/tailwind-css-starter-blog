@@ -68,8 +68,8 @@ const ScrollTopAndComment = () => {
   return (
     <div>
       <Paywall onClose={() => setIsPaywallOpen(false)} isOpen={!isSuccess} isPaywallOpen={isPaywallOpen}>
-          <SubscriptionAd />
-        </Paywall>
+         <SubscriptionAd />
+      </Paywall>
       <div
         className={`fixed bottom-8 right-8 hidden flex-col gap-3 ${show ? 'md:flex' : 'md:hidden'}`}
       >

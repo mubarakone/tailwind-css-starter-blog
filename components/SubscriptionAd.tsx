@@ -18,13 +18,13 @@ export const SubscriptionAd = () => {
     return (
         <div className="fixed inset-x-0 flex items-center justify-center p-4 lg:top-[300px] md:top-[300px] sm:top-[300px]">
           <div className="text-center"> {/* This div will center the content vertically and horizontally */}
-            <h2 className="text-4xl font-extrabold text-white mb-4">
+            <h2 className="text-6xl font-extrabold text-white mb-4 text-shadow-white-lg text-stroke-0 text-stroke-color-black">
               Unlimited Article Access
             </h2>
-            <p className="text-lg text-white mb-4">
-              Dive into knowledge for just 0.0001 ETH per read. Experience the richness of well-crafted journalism today.
+            <p className="text-4xl font-extrabold text-white mb-4 text-shadow-white-lg text-stroke-0 text-stroke-color-black">
+              Dive into knowledge for just $0.01 per read. Experience the richness of well-crafted journalism today.
             </p>
-            <p className="font-semibold text-sm text-white">
+            <p className="font-extrabold text-2xl text-white text-shadow-white-lg text-stroke-0 text-stroke-color-black">
               *Special rate available for a limited time
             </p>
             {address
@@ -33,7 +33,7 @@ export const SubscriptionAd = () => {
                   onClick={openModal} 
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 >
-                  0.0001 ETH
+                  $0.01
                 </button>
               : <div className='flex justify-center'>
                   <Suspense fallback={<p>Loading wallet...</p>}>
