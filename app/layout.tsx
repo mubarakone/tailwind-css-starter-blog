@@ -11,13 +11,8 @@ const space_grotesk = Space_Grotesk({
   variable: '--font-space-grotesk',
 })
 
-const APP_NAME = "PWA App";
-const APP_DEFAULT_TITLE = "My Awesome PWA App";
-const APP_TITLE_TEMPLATE = "%s - PWA App";
-const APP_DESCRIPTION = "Best PWA app in the world!";
-
 export const metadata: Metadata = {
-  applicationName: APP_NAME,
+  applicationName: siteMetadata.title,
   metadataBase: new URL(siteMetadata.siteUrl),
   title: {
     default: siteMetadata.title,
@@ -28,7 +23,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: APP_DEFAULT_TITLE,
+    title: siteMetadata.headerTitle,
     // startUpImage: [],
   },
   formatDetection: {
@@ -78,11 +73,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${space_grotesk.variable} scroll-smooth`}
       suppressHydrationWarning
     >
-      <link rel="apple-touch-icon" sizes="76x76" href="/static/favicons/apple-touch-icon.png" />
-      <link rel="icon" type="image/png" sizes="32x32" href="/static/favicons/favicon-32x32.png" />
-      <link rel="icon" type="image/png" sizes="16x16" href="/static/favicons/favicon-16x16.png" />
+      <link rel="apple-touch-icon" sizes="76x76" href="/newslogo64.png" />
+      <link rel="icon" type="image/png" sizes="32x32" href="/newslogo32.png" />
+      <link rel="icon" type="image/png" sizes="16x16" href="/newslogo16.png" />
       <link rel="manifest" href="manifest.json" crossOrigin="use-credentials" />
-      <link rel="mask-icon" href="/static/favicons/safari-pinned-tab.svg" color="#5bbad5" />
+      <link rel="mask-icon" href="/news-4303.svg" color="#5bbad5" />
       <meta name="msapplication-TileColor" content="#000000" />
       <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />

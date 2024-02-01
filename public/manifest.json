@@ -1,32 +1,32 @@
 {
-    "name": "My awesome PWA app",
-    "short_name": "PWA App",
+    "name": "newspaper.app",
+    "short_name": "newspaper.app",
     "icons": [
       {
-        "src": "/static/favicons/mstile-150x150.png",
+        "src": "/newslogo128.png",
         "sizes": "150x150",
         "type": "image/png",
         "purpose": "any"
       },
       {
-        "src": "/static/favicons/tailwind-css-icon-512x307-1v56l8ed.png",
+        "src": "/newslogo512.png",
         "sizes": "512x512",
         "type": "image/png",
         "purpose": "any maskable"
       },
       {
-        "src": "/static/favicons/favicon-32x32.png",
+        "src": "/newslogo32.png",
         "sizes": "32x32",
         "type": "image/png"
       },
       {
-        "src": "/static/favicons/mstile-150x150.png",
+        "src": "/newslogo128.png",
         "sizes": "192x192",
         "type": "image/png"
       }
     ],
-    "theme_color": "#FFFFFF",
-    "background_color": "#FFFFFF",
+    "theme_color": "#FBBF24",
+    "background_color": "#E7E5E4",
     "start_url": "/?source=pwa",
     "display": "standalone",
     "orientation": "portrait"

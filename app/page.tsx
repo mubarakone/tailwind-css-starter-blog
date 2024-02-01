@@ -21,7 +21,7 @@ export default function Page() {
       if (navigator.getInstalledRelatedApps) {
         try {
           const relatedApps: AppInfo[] = await navigator.getInstalledRelatedApps();
-          const foundApp = relatedApps.find(app => app.id === "https://tailwind-css-starter-blog-ivory-one.vercel.app");
+          const foundApp = relatedApps.find(app => app.id === "https://newspaper.tips");
           if (foundApp) {
             router.push('/latest');
             setLoading(false)

@@ -13,7 +13,7 @@
                 Access to this content requires a subscription. Please subscribe to continue reading.
             </p>
             <div className="mt-4">
-              <button onClick={onClose} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              <button onClick={onClose} className="bg-amber-500 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded">
                 Close
               </button>
               {/* Add more buttons or links for subscription options */}

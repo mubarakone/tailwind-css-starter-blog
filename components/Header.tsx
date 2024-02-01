@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({ style, ...props }) => {
         <Link href="/" aria-label={siteMetadata.headerTitle}>
           <div className="flex items-center justify-between">
             <div className="mr-3">
-              <Image alt='Logo' src={'/data/logo.svg'} width={24} height={24} />
+              <Image alt='Logo' src={'/news-4303.svg'} width={24} height={24} />
             </div>
             {typeof siteMetadata.headerTitle === 'string' ? (
               <div className="hidden h-6 text-2xl font-semibold sm:block">
