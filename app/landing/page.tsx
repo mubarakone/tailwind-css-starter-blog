@@ -160,10 +160,10 @@ export default function Landing() {
           </div>
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Just give a small tip to read your favorite articles.
+              Give a small tip to read your favorite articles.
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Read your favorite articles by tipping a small amount to the publisher. Each read will require a very small tip.
+              Read your favorite articles by tipping a small amount to the publisher. Each read will just require a very small tip.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <button
@@ -217,9 +217,9 @@ export default function Landing() {
           <Image
             src="/custom-install-prompt-a-5843b12d5bc42_1440.png"
             alt="Product screenshot"
-            className="w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[25rem] md:-ml-4 lg:-ml-0"
-            width={1216}
-            height={721}
+            className="w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[12rem] md:-ml-4 lg:-ml-0"
+            width={608}
+            height={360}
           />
         </div>
       </div>

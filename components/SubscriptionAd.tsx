@@ -18,14 +18,11 @@ export const SubscriptionAd = () => {
     return (
         <div className="fixed inset-x-0 flex items-center justify-center p-4 lg:top-[300px] md:top-[300px] sm:top-[300px]">
           <div className="text-center"> {/* This div will center the content vertically and horizontally */}
-            <h2 className="text-6xl font-extrabold text-amber-200 mb-4 text-shadow-white-lg text-stroke-0 text-stroke-color-black">
-              Unlimited Article Access
+            <h2 className="text-6xl font-extrabold text-amber-200 mb-4 text-shadow-black-lg text-stroke-0 text-stroke-color-black">
+              Tip to Read!
             </h2>
-            <p className="text-4xl font-extrabold text-amber-200 mb-4 text-shadow-white-lg text-stroke-0 text-stroke-color-black">
-              Dive into knowledge for just $0.01 per read. Experience the richness of well-crafted journalism today.
-            </p>
-            <p className="font-extrabold text-2xl text-amber-200 text-shadow-white-lg text-stroke-0 text-stroke-color-black">
-              *Special rate available for a limited time
+            <p className="text-xl font-extrabold text-amber-200 mb-4 text-shadow-black-lg text-stroke-0 text-stroke-color-black">
+              Just give a small tip to read your favorite articles. Please have at least <span className='text-white'>0.000005 ETH</span> in your wallet to continue reading.
             </p>
             {address
               ? <button 

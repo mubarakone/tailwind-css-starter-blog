@@ -26,7 +26,7 @@ const ContentSecurityPolicy = `
   media-src *.s3.amazonaws.com;
   connect-src *;
   font-src 'self';
-  frame-src giscus.app https://verify.walletconnect.com/
+  frame-src giscus.app https://verify.walletconnect.com/ https://verify.walletconnect.org/;
 `
 
 const securityHeaders = [

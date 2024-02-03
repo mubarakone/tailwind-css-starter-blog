@@ -18,7 +18,7 @@ const Header: React.FC<HeaderProps> = ({ style, ...props }) => {
   return (
     <header style={style} className="flex items-center justify-between py-10">
       <div>
-        <Link href="/" aria-label={siteMetadata.headerTitle}>
+        <Link href="/latest" aria-label={siteMetadata.headerTitle}>
           <div className="flex items-center justify-between">
             <div className="mr-3">
               <Image alt='Logo' src={'/news-4303.svg'} width={24} height={24} />
