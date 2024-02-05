@@ -67,7 +67,7 @@ export default function Landing() {
             <a className="absolute -m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
             </a>
-            <Image alt='newspaper.tips' className="left-0 ml-4 w-12 h-auto" src={'/news-4303.svg'} width={12} height={12} />
+            <Image alt='newspaper.tips' className="left-0 ml-4 w-12 h-auto" src={'/newsDEMO-4303-svg.svg'} width={12} height={12} />
           </div>
           <div className="flex lg:hidden">
             <button

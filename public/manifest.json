@@ -3,24 +3,24 @@
     "short_name": "newspaper.app",
     "icons": [
       {
-        "src": "/newslogo128.png",
+        "src": "/newsDEMO128.png",
         "sizes": "150x150",
         "type": "image/png",
         "purpose": "any"
       },
       {
-        "src": "/newslogo512.png",
+        "src": "/newsDEMO512.png",
         "sizes": "512x512",
         "type": "image/png",
         "purpose": "any maskable"
       },
       {
-        "src": "/newslogo32.png",
+        "src": "/newsDEMO32.png",
         "sizes": "32x32",
         "type": "image/png"
       },
       {
-        "src": "/newslogo128.png",
+        "src": "/newsDEMO128.png",
         "sizes": "192x192",
         "type": "image/png"
       }
