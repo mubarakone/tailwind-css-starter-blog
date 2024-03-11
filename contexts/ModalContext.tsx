@@ -1,9 +1,14 @@
 'use client'
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useFeeData, usePrepareSendTransaction, useSendTransaction, useWaitForTransaction, useAccount } from 'wagmi'
+import { useFeeData, useWalletClient, useSignMessage, useAccount, } from 'wagmi'
 import { parseEther } from 'viem';
 import { isZeroDevConnector } from "@dynamic-labs/ethereum-aa";
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
+import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
+import { providerToSmartAccountSigner } from 'permissionless';
+import { useEthersSigner } from '../adapters/useEthersSigner'
+import { SignerOrProvider } from '@ethereum-attestation-service/eas-sdk/dist/transaction';
+
 
 interface IModalContext {
   isModalOpen: boolean;
@@ -33,6 +38,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   const [isError, setIsError] = useState(false);
   const [transactionHash, setTransactionHash] = useState();
   const [errorMsg, setErrorMsg] = useState();
+  const [savedArticle, setSavedArticle] = useState('');
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -57,6 +63,20 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
 //   })
 
   const { primaryWallet } = useDynamicContext();
+  const { address, isConnecting, isDisconnected } = useAccount()
+  const signer = useEthersSigner();
+
+  useEffect(() => {
+    const storedValue = localStorage.getItem('savedArticle');
+
+    if (storedValue) {
+      // Parse the JSON string back to an object
+      const data = JSON.parse(storedValue);
+      setSavedArticle(data)
+  } else {
+      console.log('No data found in localStorage for key "savedArticle"');
+  }
+  })
 
   const handleSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
@@ -64,36 +84,67 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
     setIsIdle(false)
     setIsSigning(true);
 
-    if (!primaryWallet) {
-        return;
-    }
+    // if (!primaryWallet) {
+    //     return;
+    // }
     
-    const { connector, address } = primaryWallet;
+    // const { connector, address } = primaryWallet;
     
-    if (!isZeroDevConnector(connector)) {
-        return;
-    }
+    // if (!isZeroDevConnector(connector)) {
+    //     return;
+    // }
+
+    // const dynamicProvider = await primaryWallet?.connector?.getWalletClient();
+
+    // const smartAccountSigner = await providerToSmartAccountSigner(dynamicProvider);
     
-    const ecdsaProvider = connector.getAccountAbstractionProvider();
+    // const ecdsaProvider = connector.getAccountAbstractionProvider();
     
-    if (!ecdsaProvider) {
-        return;
+    // if (!ecdsaProvider) {
+    //     return;
+    // }
+
+    if (!address) {
+      return;
     }
 
+    if (!signer) {
+      return
+    }
+
+    const easContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e";
+    const schemaUID = "0x0f56703f9857e3309b852d83c412dbc1176b028898226960fe2b89c6a92711fc";
+    const eas = new EAS(easContractAddress);
+    // @ts-ignore
+    await eas.connect(signer);
+
+    const schemaEncoder = new SchemaEncoder("string publisher, string author, string article, uint256 readTime");
+    const encodedData = schemaEncoder.encodeData([
+      { name: "publisher", value: "", type: "string" },
+      { name: "author", value: "", type: "string" },
+      { name: "article", value: savedArticle, type: "string" },
+      { name: "readTime", value: "0", type: "uint256" },
+    ]);
+
+    const myBigInt: bigint = BigInt(0);
+    
     try {
-        const result = await ecdsaProvider.sendUserOperation({
-            target: '0x0bc58805c5e5b1b020afe6013eeb6bcda74df7f0',
-            data: '0x',
-            value: parseEther('0.000005'),
-            gasPrice: feeData.data?.maxFeePerGas ?? undefined,
+        const tx = await eas.attest({
+          schema: schemaUID,
+          data: {
+            recipient: "0x0BC58805c5e5B1b020AfE6013Eeb6BcDa74DF7f0",
+            expirationTime: myBigInt,
+            revocable: true, // Be aware that if your schema is not revocable, this MUST be false
+            data: encodedData,
+          },
         });
 
         setIsSigning(false)
         setIsFetching(true)
 
-        if (result && result.hash) {
+        if (tx) {
             // Start polling for the receipt after a delay
-            setTimeout(() => checkComplete(result.hash), 5000); // Adjust the delay as necessary
+            setTimeout(() => checkComplete(tx), 5000); // Adjust the delay as necessary
           } else {
             console.error('Error sending transaction:');
             setIsFetching(false);
@@ -106,11 +157,11 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
           setIsError(true);
         }
 
-        const checkComplete = async (hash, attempts = 5) => {
+        const checkComplete = async (tx, attempts = 5) => {
             let result; // Initialize the receipt variable outside the loop
             for (let i = 0; i < attempts; i++) {
               try {
-                result = await ecdsaProvider.waitForUserOperationTransaction(hash);
+                result = await tx.wait();;
                 if (result) {
                    console.log('Transaction successful:', result);
                    setTransactionHash(result)

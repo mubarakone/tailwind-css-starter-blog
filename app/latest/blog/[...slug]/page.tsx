@@ -13,6 +13,7 @@ import PostBanner from '@/layouts/PostBanner'
 import { Metadata } from 'next'
 import siteMetadata from '@/data/siteMetadata'
 import { notFound } from 'next/navigation'
+import { getFrameMetadata } from '@coinbase/onchainkit';
 
 const defaultLayout = 'PostLayout'
 const layouts = {
@@ -50,6 +51,26 @@ export async function generateMetadata({
     }
   })
 
+  const frameMetadata = getFrameMetadata({
+    buttons: [
+      {
+        label: ' ',
+      },
+      {
+        label: '0/6',
+      },
+      {
+        action: 'post',
+        label: 'Preview ↪️',
+      },
+    ],
+    image: {
+      src: `http://localhost:3000/park-3.png`,
+      aspectRatio: '1:1',
+    },
+    postUrl: `http://localhost:3000/api/frame`,
+  });
+
   return {
     title: post.title,
     description: post.summary,
@@ -70,6 +91,9 @@ export async function generateMetadata({
       title: post.title,
       description: post.summary,
       images: imageList,
+    },
+    other: {
+      ...frameMetadata
     },
   }
 }

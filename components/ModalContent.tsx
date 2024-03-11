@@ -40,11 +40,11 @@ const ModalContent = React.forwardRef<HTMLButtonElement>((props, forwardRef) => 
                   className="mb-4 w-full justify-center rounded-md bg-amber-300 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-500"
                   onClick={handleSubmit}
                 >
-                  Send
+                  Sign with your Wallet
                 </button>
               </div>
               <Dialog.Title as="h3" className="text-lg font-semibold leading-6 text-gray-900 text-center">
-                Confirm Transaction
+                Checkout
               </Dialog.Title>
             </div>
               <div className="flex flex-col sm:flex-row sm:space-x-2 px-4 mt-4 space-y-4 sm:space-y-0">
@@ -76,7 +76,7 @@ const ModalContent = React.forwardRef<HTMLButtonElement>((props, forwardRef) => 
                     Network Fees:
                   </p>
                   <p className="p-4 text-xs text-blue-600">
-                    <Suspense fallback={<p>Loading...</p>}>&lt;&lt;&lt; $00.01</Suspense>
+                    <Suspense fallback={<p>Loading...</p>}>&lt;&lt;&lt; $00.00</Suspense>
                   </p>
                 </div>
                 <div className="flex justify-between items-baseline mt-2">
@@ -98,7 +98,7 @@ const ModalContent = React.forwardRef<HTMLButtonElement>((props, forwardRef) => 
                   className="hidden sm:inline-flex justify-center rounded-md bg-amber-300 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-500 sm:ml-3 w-full sm:w-auto"
                   onClick={handleSubmit}
                 >
-                  Send
+                  Sign with your Wallet
                 </button>
                 <button
                   type="button"
@@ -206,7 +206,7 @@ const ModalContent = React.forwardRef<HTMLButtonElement>((props, forwardRef) => 
               <p className="text-sm text-green-600 flex">
                 Transaction ID: 
                 <span className="font-semibold ml-1">
-                  <a href={`https://sepolia.etherscan.io/tx/${transactionHash}`} target="_blank" rel="noopener noreferrer" className="flex items-center">
+                  <a href={`https://sepolia.easscan.org/attestation/view/${transactionHash}`} target="_blank" rel="noopener noreferrer" className="flex items-center">
                     {truncatedTransactionHash}
                     <svg width="16" height="16" viewBox="0 0 24 24" className="ml-1">
                       <path d="M0 0h24v24H0z" fill="none"/>
