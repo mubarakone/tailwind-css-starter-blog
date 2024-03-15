@@ -1,29 +1,71 @@
-'use client'
 import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
-import { useState } from 'react';
 
-const [frameID, setFrameID] = useState(0)
+let frameID = 1;
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body, {allowFramegear: true});
 
   if (isValid) {
-    console.log("isValid: ", isValid)
     if (message?.button === 1) {
-        setFrameID(frameID - 1);
-        console.log("message.button === 1: ", message)
+        frameID--;
     }
     
     if (message?.button === 3) {
-        setFrameID(frameID + 1);
-        console.log("message.button === 3: ", message)
+        frameID++;
     }
   }
 
-  console.log("isValid: ", isValid)
-  console.log("message: ", message)
+  if (frameID === 0) {
+    return new NextResponse(
+        getFrameHtmlResponse({
+            buttons: [
+                {
+                  label: ' ',
+                },
+                {
+                  label: `${frameID}/6`,
+                },
+                {
+                  action: 'post',
+                  label: 'Preview ↪️',
+                },
+              ],
+              image: {
+                src: `http://localhost:3000/first-frame-article.png`,
+                aspectRatio: '1:1',
+              },
+              postUrl: `http://localhost:3000/api/frame`,
+        }),
+      );
+  }
+
+  if (frameID === 7) {
+    return new NextResponse(
+        getFrameHtmlResponse({
+          buttons: [
+            {
+              action: 'post',
+              label: '⬅️ Back',
+            },
+            {
+              label: `${frameID}/6`,
+            },
+            {
+              action: 'link',
+              label: 'Continue Reading 📖',
+              target: 'http://localhost:3000/latest/blog/release-of-tailwind-nextjs-starter-blog-v2.0'
+            },
+          ],
+          image: {
+            src: `http://localhost:3000/last-frame-article.png`,
+            aspectRatio: '1:1',
+          },
+          postUrl: `http://localhost:3000/api/frame`,
+        }),
+      );
+  }
 
   return new NextResponse(
     getFrameHtmlResponse({
@@ -41,7 +83,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       image: {
-        src: `http://localhost:3000/park-3.png`,
+        src: `http://localhost:3000/generated_images/snippet_${frameID - 1}.png`,
         aspectRatio: '1:1',
       },
       postUrl: `http://localhost:3000/api/frame`,

@@ -18,7 +18,7 @@ export default async function handler(
       const { article } = req.body;
       // Adjust model and parameters as needed
       const width = 800; // Width of the image
-      const height = 600; // Height of the image
+      const height = 800; // Height of the image
       const canvas = createCanvas(width, height);
       const context = canvas.getContext('2d');
       // Customize your canvas

@@ -65,10 +65,10 @@ export async function generateMetadata({
       },
     ],
     image: {
-      src: `http://localhost:3000/park-3.png`,
+      src: `http://localhost:3000/first-frame-article.png`,
       aspectRatio: '1:1',
     },
-    postUrl: `http://localhost:3000/api/frame`,
+    postUrl: `http://localhost:3000/api/generateFrames`,
   });
 
   return {
