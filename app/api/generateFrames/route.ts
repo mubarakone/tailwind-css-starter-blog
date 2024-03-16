@@ -6,8 +6,8 @@ import OpenAI from 'openai';
 import path from 'path'
 
 const openai = new OpenAI({
-    apiKey: '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',
-    organization: 'org-w35JUTgwqrpv9Rxa7OT9HDHx',
+    apiKey: process.env.OPENAI_API_KEY,
+    organization: process.env.OPENAI_ORGANIZATION,
 });
 
 async function readFileAndGenerateSummary(filePath: string) {
