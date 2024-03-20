@@ -1,25 +1,20 @@
-// pages/api/images/[filename].ts
+// app/routes/api/images/[filename].ts
 
-import type { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import path from 'path';
 
-export default function (req: NextApiRequest, res: NextApiResponse) {
+export const GET = async (req, res) => {
     const { filename } = req.query;
     const filePath = path.join('/tmp', filename as string);
 
-    fs.readFile(filePath, (err, data) => {
-        if (err) {
-            res.status(404).send('Image not found');
-            return;
-        }
-
+    try {
+        const data = await fs.promises.readFile(filePath);
         res.setHeader('Content-Type', 'image/png');
         res.send(data);
 
-        // Optionally delete the file after serving it
-        fs.unlink(filePath, (err) => {
-            if (err) console.error('Error deleting the file:', err);
-        });
-    });
-}
+        await fs.promises.unlink(filePath);
+    } catch (err) {
+        console.error('Error reading or deleting the file:', err);
+        res.status(404).send('Image not found');
+    }
+};
