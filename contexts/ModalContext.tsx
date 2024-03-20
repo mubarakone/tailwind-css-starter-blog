@@ -1,13 +1,9 @@
 'use client'
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useFeeData, useWalletClient, useSignMessage, useAccount, } from 'wagmi'
-import { parseEther } from 'viem';
-import { isZeroDevConnector } from "@dynamic-labs/ethereum-aa";
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-import { providerToSmartAccountSigner } from 'permissionless';
 import { useEthersSigner } from '../adapters/useEthersSigner'
-import { SignerOrProvider } from '@ethereum-attestation-service/eas-sdk/dist/transaction';
 
 
 interface IModalContext {
