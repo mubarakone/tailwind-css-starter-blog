@@ -33,10 +33,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                 },
               ],
               image: {
-                src: `http://localhost:3000/first-frame-article.png`,
+                src: `https://newspaper.tips/first-frame-article.png`,
                 aspectRatio: '1:1',
               },
-              postUrl: `http://localhost:3000/api/frame`,
+              postUrl: `https://newspaper.tips/api/frame`,
         }),
       );
   }
@@ -59,10 +59,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             },
           ],
           image: {
-            src: `http://localhost:3000/last-frame-article.png`,
+            src: `https://newspaper.tips/last-frame-article.png`,
             aspectRatio: '1:1',
           },
-          postUrl: `http://localhost:3000/api/frame`,
+          postUrl: `https://newspaper.tips/api/frame`,
         }),
       );
   }
@@ -83,10 +83,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       image: {
-        src: `http://localhost:3000/generated_images/snippet_${frameID - 1}.png`,
+        src: `https://newspaper.tips/api/images/snippet_${frameID - 1}.png`,
         aspectRatio: '1:1',
       },
-      postUrl: `http://localhost:3000/api/frame`,
+      postUrl: `https://newspaper.tips/api/frame`,
     }),
   );
 }

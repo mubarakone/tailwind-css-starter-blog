@@ -46,11 +46,7 @@ function wrapText(context, text, x, y, maxWidth, lineHeight) {
 }
 
 function generateAndSaveImage(textSnippet: string, index: number) {
-    const folderPath = path.join(process.cwd(), 'public', 'generated_images');
-
-    if (!fs.existsSync(folderPath)) {
-        fs.mkdirSync(folderPath, { recursive: true });
-    }
+    const tempDir = '/tmp';
 
     const canvas = createCanvas(800, 800); // Adjust size as needed
     const ctx = canvas.getContext('2d');
@@ -62,13 +58,13 @@ function generateAndSaveImage(textSnippet: string, index: number) {
 
     const buffer = canvas.toBuffer('image/png');
     const fileName = `snippet_${index}.png`;
-    const filePath = path.join(folderPath, fileName);
+    const filePath = path.join(tempDir, fileName);
     fs.writeFileSync(filePath, buffer);
 }
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
-  const { isValid, message } = await getFrameMessage(body, {allowFramegear: true});
+  const { isValid, message } = await getFrameMessage(body);
 
   if (isValid) {
 //  const frameURL = 
@@ -109,10 +105,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       image: {
-        src: `http://localhost:3000/generated_images/snippet_0.png`,
+        src: `https://newspaper.tips/api/images/snippet_0.png`,
         aspectRatio: '1:1',
       },
-      postUrl: `http://localhost:3000/api/frame`,
+      postUrl: `https://newspaper.tips/api/frame`,
     }),
   );
 }
