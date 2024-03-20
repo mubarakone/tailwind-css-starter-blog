@@ -1,10 +1,10 @@
 // pages/api/images/[filename].ts
 
-import { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import path from 'path';
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default function (req: NextApiRequest, res: NextApiResponse) {
     const { filename } = req.query;
     const filePath = path.join('/tmp', filename as string);
 
