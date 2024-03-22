@@ -1,20 +1,42 @@
-// app/routes/api/images/[filename].ts
+// app/routes/api/image.ts
 
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-export const GET = async (req, res) => {
-    const { filename } = req.query;
-    const filePath = path.join('/tmp', filename as string);
+// This is a server route in Next.js using the new App directory structure
+export const runtime = 'edge'
+
+export default async function handler(req: NextRequest) {
+    // Extract the filename query parameter
+    const url = new URL(req.url);
+    const filename = url.searchParams.get('filename');
+    if (!filename) {
+        return new NextResponse('Filename is required', { status: 400 });
+    }
+
+    const filePath = path.join('/tmp', filename);
 
     try {
-        const data = await fs.promises.readFile(filePath);
-        res.setHeader('Content-Type', 'image/png');
-        res.send(data);
+        // Ensure the file exists
+        if (!fs.existsSync(filePath)) {
+            return new NextResponse('File not found', { status: 404 });
+        }
 
-        await fs.promises.unlink(filePath);
-    } catch (err) {
-        console.error('Error reading or deleting the file:', err);
-        res.status(404).send('Image not found');
+        // Read the image file from the temporary directory
+        const fileBuffer = fs.readFileSync(filePath);
+
+        // Create a response with the image content
+        const response = new NextResponse(fileBuffer);
+        response.headers.set('Content-Type', 'image/png'); // Adjust the content type based on your image format
+
+        // // Optionally delete the file after serving
+        // fs.unlinkSync(filePath);
+
+        return response;
+    } catch (error) {
+        console.error('Error serving the image:', error);
+        return new NextResponse('Internal Server Error', { status: 500 });
     }
-};
+}
