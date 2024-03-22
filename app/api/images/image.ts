@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-export default async function POST(req: NextRequest) {
+export default async function GET(req: NextRequest) {
     // Extract the filename query parameter
     const url = new URL(req.url);
     const filename = url.searchParams.get('filename');
