@@ -46,7 +46,11 @@ function wrapText(context, text, x, y, maxWidth, lineHeight) {
 }
 
 function generateAndSaveImage(textSnippet: string, index: number) {
-    const tempDir = '/tmp';
+    // Define the folder to save images
+    const folderPath = path.join(process.cwd(), 'public', 'generated_images');
+    if (!fs.existsSync(folderPath)) {
+        fs.mkdirSync(folderPath, { recursive: true });
+    }
 
     const canvas = createCanvas(800, 800); // Adjust size as needed
     const ctx = canvas.getContext('2d');
@@ -58,7 +62,7 @@ function generateAndSaveImage(textSnippet: string, index: number) {
 
     const buffer = canvas.toBuffer('image/png');
     const fileName = `snippet_${index}.png`;
-    const filePath = path.join(tempDir, fileName);
+    const filePath = path.join(folderPath, fileName);
     fs.writeFileSync(filePath, buffer);
 }
 

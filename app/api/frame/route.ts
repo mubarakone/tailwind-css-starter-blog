@@ -55,7 +55,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             {
               action: 'link',
               label: 'Continue Reading 📖',
-              target: 'http://localhost:3000/latest/blog/release-of-tailwind-nextjs-starter-blog-v2.0'
+              target: 'https://newspaper.tips/latest/blog/release-of-tailwind-nextjs-starter-blog-v2.0'
             },
           ],
           image: {
