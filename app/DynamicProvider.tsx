@@ -8,8 +8,6 @@ import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
 
 export const DynamicProvider = (props: PropsWithChildren) => {
 
-    const DynamicEnvironmentID = process.env.DYNAMIC_ENVIRONMENT_ID as string
-
     const cssOverrides = `
     .dynamic-shadow-dom-content {
         --dynamic-font-family-primary: "Roboto", sans-serif;
@@ -27,7 +25,7 @@ export const DynamicProvider = (props: PropsWithChildren) => {
         <DynamicContextProvider
             settings={{
                 // Find your environment id at https://app.dynamic.xyz/dashboard/developer
-                environmentId: DynamicEnvironmentID,
+                environmentId: process.env.DYNAMIC_ENVIRONMENT_ID as string,
                 walletConnectors: [EthereumWalletConnectors, ZeroDevSmartWalletConnectors],
                 cssOverrides,
             }}
