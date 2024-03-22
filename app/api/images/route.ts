@@ -5,9 +5,6 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-// This is a server route in Next.js using the new App directory structure
-export const runtime = 'edge'
-
 export default async function handler(req: NextRequest) {
     // Extract the filename query parameter
     const url = new URL(req.url);
