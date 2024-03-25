@@ -109,7 +109,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       image: {
-        src: `https://newspaper.tips/api/images/snippet_0.png`,
+        src: `https://newspaper.tips/generated_images/snippet_0.png`,
         aspectRatio: '1:1',
       },
       postUrl: `https://newspaper.tips/api/frame`,
