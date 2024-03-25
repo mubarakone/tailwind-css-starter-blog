@@ -65,10 +65,10 @@ export async function generateMetadata({
       },
     ],
     image: {
-      src: `http://localhost:3000/first-frame-article.png`,
+      src: `https://newspaper.tips/first-frame-article.png`,
       aspectRatio: '1:1',
     },
-    postUrl: `http://localhost:3000/api/generateFrames`,
+    postUrl: `https://newspaper.tips/api/generateFrames`,
   });
 
   return {

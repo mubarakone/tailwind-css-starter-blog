@@ -1,8 +1,7 @@
 import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 
-let frameID = 0;
-let firstFrameCalled = false
+let frameID = 1;
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
@@ -18,94 +17,65 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     }
   }
 
-  if (firstFrameCalled) {
-    if (frameID === 0) {
-        return new NextResponse(
-            getFrameHtmlResponse({
-                buttons: [
-                    {
-                      label: ' ',
-                    },
-                    {
-                      label: `${frameID}/6`,
-                    },
-                    {
-                      action: 'post',
-                      label: 'Preview ↪️',
-                    },
-                  ],
-                  image: {
-                    // Image is located in the public directory. Works perfectly during development (with localhost domain of course)
-                    src: `https://newspaper.tips/first-frame-article.png`,
-                    aspectRatio: '1:1',
-                  },
-                  postUrl: `https://newspaper.tips/api/frame`,
-            }),
-          );
-      }
-    
-      if (frameID === 7) {
-        return new NextResponse(
-            getFrameHtmlResponse({
-              buttons: [
+  if (frameID === 0) {
+    return new NextResponse(
+        getFrameHtmlResponse({
+            buttons: [
                 {
-                  action: 'post',
-                  label: '⬅️ Back',
-                },
-                {
-                  label: `${frameID}/6`,
-                },
-                {
-                  action: 'link',
-                  label: 'Continue Reading 📖',
-                  target: 'https://newspaper.tips/latest/blog/release-of-tailwind-nextjs-starter-blog-v2.0'
-                },
-              ],
-              image: {
-                src: `https://newspaper.tips/last-frame-article.png`,
-                aspectRatio: '1:1',
-              },
-              postUrl: `https://newspaper.tips/api/frame`,
-            }),
-          );
-      }
-    
-      if (frameID !== 0) {
-        return new NextResponse(
-            getFrameHtmlResponse({
-              buttons: [
-                {
-                  action: 'post',
-                  label: '⬅️ Back',
+                  label: ' ',
                 },
                 {
                   label: `${frameID}/6`,
                 },
                 {
                   action: 'post',
-                  label: 'Next ➡️',
+                  label: 'Preview ↪️',
                 },
               ],
               image: {
-                src: `https://newspaper.tips/generated_images/snippet_${frameID - 1}.png`,
+                src: `https://newspaper.tips/first-frame-article.png`,
                 aspectRatio: '1:1',
               },
               postUrl: `https://newspaper.tips/api/frame`,
-            }),
-          );
-      }
+        }),
+      );
   }
 
-  firstFrameCalled = true;
+  if (frameID === 7) {
+    return new NextResponse(
+        getFrameHtmlResponse({
+          buttons: [
+            {
+              action: 'post',
+              label: '⬅️ Back',
+            },
+            {
+              label: `${frameID}/6`,
+            },
+            {
+              action: 'link',
+              label: 'Continue Reading 📖',
+              target: 'https://newspaper.tips/latest/blog/release-of-tailwind-nextjs-starter-blog-v2.0'
+            },
+          ],
+          image: {
+            src: `https://newspaper.tips/last-frame-article.png`,
+            aspectRatio: '1:1',
+          },
+          postUrl: `https://newspaper.tips/api/frame`,
+        }),
+      );
+  }
 
   return new NextResponse(
     getFrameHtmlResponse({
       buttons: [
         {
-          label: ' ',
+          action: 'post',
+          label: '⬅️ Back',
         },
         {
-          label: `0/6`,
+          label: `${frameID}/6`,
         },
         {
           action: 'post',
@@ -113,10 +83,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       image: {
-        src: `https://newspaper.tips/first-frame-article.png`,
+        src: `https://newspaper.tips/generated_images/snippet_${frameID - 1}.png`,
         aspectRatio: '1:1',
       },
-      postUrl: `https://newspaper.tips/api/generateFrames`,
+      postUrl: `https://newspaper.tips/api/frame`,
     }),
   );
 }
