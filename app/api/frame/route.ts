@@ -6,7 +6,7 @@ let firstFrameCalled = false
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
-  const { isValid, message } = await getFrameMessage(body, {allowFramegear: true});
+  const { isValid, message } = await getFrameMessage(body);
 
   if (isValid) {
     if (message?.button === 1) {
