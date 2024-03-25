@@ -102,11 +102,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     getFrameHtmlResponse({
       buttons: [
         {
-          action: 'post',
-          label: '⬅️ Back',
+          label: ' ',
         },
         {
-          label: `${frameID}/6`,
+          label: `0/6`,
         },
         {
           action: 'post',
@@ -114,7 +113,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       image: {
-        src: `https://newspaper.tips/generated_images/snippet_${frameID - 1}.png`,
+        src: `https://newspaper.tips/first-frame-article.png`,
         aspectRatio: '1:1',
       },
       postUrl: `https://newspaper.tips/api/generateFrames`,
