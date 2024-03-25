@@ -1,6 +1,6 @@
 'use client'
 
-import siteMetadata from '@/data/siteMetadata'
+import siteMetadata from 'public/data/siteMetadata'
 import { useEffect, useState } from 'react'
 import { Paywall } from './Paywall'
 import { SubscriptionAd } from './SubscriptionAd'

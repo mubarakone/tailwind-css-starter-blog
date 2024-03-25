@@ -47,10 +47,7 @@ function wrapText(context, text, x, y, maxWidth, lineHeight) {
 
 function generateAndSaveImage(textSnippet: string, index: number) {
     // Define the folder to save images
-    const folderPath = path.join(process.cwd(), 'public', 'generated_images');
-    if (!fs.existsSync(folderPath)) {
-        fs.mkdirSync(folderPath, { recursive: true });
-    }
+    const tempDir = '/tmp';
 
     const canvas = createCanvas(800, 800); // Adjust size as needed
     const ctx = canvas.getContext('2d');
@@ -62,7 +59,7 @@ function generateAndSaveImage(textSnippet: string, index: number) {
 
     const buffer = canvas.toBuffer('image/png');
     const fileName = `snippet_${index}.png`;
-    const filePath = path.join(folderPath, fileName);
+    const filePath = path.join(tempDir, fileName);
     fs.writeFileSync(filePath, buffer);
 }
 
@@ -73,7 +70,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   if (isValid) {
 //  const frameURL = 
 //  const filePath = `data/blog/${frameURL}.mdx`
-    const filePath = 'latest/blog/release-of-tailwind-nextjs-starter-blog-v2.0.mdx'
+    const filePath = 'data/blog/release-of-tailwind-nextjs-starter-blog-v2.0'
     console.log('filePath is: ', filePath)
     // Read the file
     // Generate the summary
@@ -109,7 +106,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       image: {
-        src: `https://newspaper.tips/generated_images/snippet_0.png`,
+        src: `https://newspaper.tips/tmp/snippet_0.png`,
         aspectRatio: '1:1',
       },
       postUrl: `https://newspaper.tips/api/frame`,

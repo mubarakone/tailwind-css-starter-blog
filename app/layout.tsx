@@ -1,7 +1,7 @@
 import 'css/tailwind.css'
 import 'pliny/search/algolia.css'
 import { Space_Grotesk } from 'next/font/google'
-import siteMetadata from '@/data/siteMetadata'
+import siteMetadata from 'public/data/siteMetadata'
 import { Metadata, Viewport } from 'next'
 
 const space_grotesk = Space_Grotesk({
