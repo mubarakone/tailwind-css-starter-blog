@@ -1,6 +1,7 @@
 import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 import { createCanvas } from 'canvas';
+import { fetchMDXContent } from '../fetchMDXContent';
 import fs from 'fs'
 import OpenAI from 'openai';
 import path from 'path'
@@ -11,8 +12,8 @@ const openai = new OpenAI({
 });
 
 async function readFileAndGenerateSummary(filePath: string) {
-    const fullPath = path.join(process.cwd(), filePath);
-    const mdxContent = fs.readFileSync(fullPath, 'utf8');
+    // const fullPath = path.join(process.cwd(), filePath);
+    const mdxContent = await fetchMDXContent(filePath)
 
     const response = await openai.chat.completions.create({
         messages: [
@@ -70,7 +71,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   if (isValid) {
 //  const frameURL = 
 //  const filePath = `data/blog/${frameURL}.mdx`
-    const filePath = 'data/blog/release-of-tailwind-nextjs-starter-blog-v2.0.mdx'
+    const filePath = 'https://newspaper.tips/data/blog/release-of-tailwind-nextjs-starter-blog-v2.0.mdx'
     console.log('filePath is: ', filePath)
     // Read the file
     // Generate the summary
