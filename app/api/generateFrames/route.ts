@@ -55,7 +55,7 @@ function generateAndSaveImage(textSnippet: string, index: number) {
     ctx.fillStyle = '#fff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = '#000';
-    ctx.font = '56px sans-serif';
+    ctx.font = '56px';
     wrapText(ctx, textSnippet, 20, 60, 780, 55); // You might need to adjust maxWidth and lineHeight
 
     const buffer = canvas.toBuffer('image/png');
