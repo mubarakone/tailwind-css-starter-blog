@@ -129,7 +129,7 @@ export const Authors = defineDocumentType(() => ({
 }))
 
 export default makeSource({
-  contentDirPath: 'data',
+  contentDirPath: 'public/data',
   documentTypes: [Blog, Authors],
   mdx: {
     cwd: process.cwd(),
@@ -144,7 +144,7 @@ export default makeSource({
       rehypeSlug,
       rehypeAutolinkHeadings,
       rehypeKatex,
-      [rehypeCitation, { path: path.join(root, 'data') }],
+      [rehypeCitation, { path: path.join(root, 'public/data') }],
       [rehypePrismPlus, { defaultLanguage: 'js', ignoreMissing: true }],
       rehypePresetMinify,
     ],
