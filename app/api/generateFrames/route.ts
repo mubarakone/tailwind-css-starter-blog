@@ -70,7 +70,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   if (isValid) {
 //  const frameURL = 
 //  const filePath = `data/blog/${frameURL}.mdx`
-    const filePath = 'data/blog/release-of-tailwind-nextjs-starter-blog-v2.0'
+    const filePath = 'data/blog/release-of-tailwind-nextjs-starter-blog-v2.0.mdx'
     console.log('filePath is: ', filePath)
     // Read the file
     // Generate the summary
