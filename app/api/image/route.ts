@@ -1,31 +1,44 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+// app/routes/api/image.ts
+
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-// This is a regular API route, not an Edge function
-export default async function(request: NextApiRequest, response: NextApiResponse) {
-    if (request.method !== 'GET') {
-        return response.status(405).send('Method Not Allowed');
-    }
 
-    const { filename } = request.query;
+export const runtime = 'edge';
 
-    if (!filename || typeof filename !== 'string') {
-        return response.status(400).send('Filename is required');
+export const dynamic = 'force-dynamic'
+
+export default async function GET(request: NextRequest): Promise<NextResponse> {
+    // Extract the filename query parameter
+    const searchParams = request.nextUrl.searchParams
+    const filename = searchParams.get('filename');
+    if (!filename) {
+        return new NextResponse('Filename is required', { status: 400 });
     }
 
     const filePath = path.join('/tmp', filename);
 
     try {
+        // Ensure the file exists
         if (!fs.existsSync(filePath)) {
-            return response.status(404).send('File not found');
+            return new NextResponse('File not found', { status: 404 });
         }
 
+        // Read the image file from the temporary directory
         const fileBuffer = fs.readFileSync(filePath);
-        response.setHeader('Content-Type', 'image/png'); // Adjust the content type as needed
-        return response.send(fileBuffer);
+
+        // Create a response with the image content
+        const response = new NextResponse(fileBuffer);
+        response.headers.set('Content-Type', 'image/png'); // Adjust the content type based on your image format
+
+        // // Optionally delete the file after serving
+        // fs.unlinkSync(filePath);
+
+        return response;
     } catch (error) {
         console.error('Error serving the image:', error);
-        return response.status(500).send('Internal Server Error');
+        return new NextResponse('Internal Server Error', { status: 500 });
     }
 }
