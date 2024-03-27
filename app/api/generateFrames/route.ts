@@ -5,6 +5,7 @@ import { fetchMDXContent } from '../fetchMDXContent';
 import fs from 'fs'
 import OpenAI from 'openai';
 import path from 'path'
+import fetch from 'node-fetch';
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -46,22 +47,32 @@ function wrapText(context, text, x, y, maxWidth, lineHeight) {
     context.fillText(line, x, y);
 }
 
-function generateAndSaveImage(textSnippet: string, index: number) {
+async function generateAndSaveImage(textSnippet: string, index: number): Promise<void> {
     // Define the folder to save images
     const tempDir = '/tmp';
 
-    const canvas = createCanvas(800, 800); // Adjust size as needed
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#000';
-    ctx.font = '56px';
-    wrapText(ctx, textSnippet, 20, 60, 780, 55); // You might need to adjust maxWidth and lineHeight
+    // const canvas = createCanvas(800, 800); // Adjust size as needed
+    // const ctx = canvas.getContext('2d');
+    // ctx.fillStyle = '#fff';
+    // ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // ctx.fillStyle = '#000';
+    // ctx.font = '56px';
+    // wrapText(ctx, textSnippet, 20, 60, 780, 55); // You might need to adjust maxWidth and lineHeight
 
-    const buffer = canvas.toBuffer('image/png');
+    const apiUrl = 'https://newspaper.tips/api/og'; // Adjust this URL to your actual API endpoint
+    const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ textSnippet })
+    });
+
+    const buffer = await response.buffer();
     const fileName = `snippet_${index}.png`;
     const filePath = path.join(tempDir, fileName);
     fs.writeFileSync(filePath, buffer);
+    console.log(`Image saved to ${filePath}`);
 }
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
