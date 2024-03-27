@@ -5,10 +5,12 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-export default async function GET(req: NextRequest) {
+export const dynamic = 'force-dynamic'
+
+export default async function GET(request: NextRequest): Promise<NextResponse> {
     // Extract the filename query parameter
-    const url = new URL(req.url);
-    const filename = url.searchParams.get('filename');
+    const searchParams = request.nextUrl.searchParams
+    const filename = searchParams.get('filename');
     if (!filename) {
         return new NextResponse('Filename is required', { status: 400 });
     }
