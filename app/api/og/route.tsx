@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 // App router includes @vercel/og.
 // No need to install it.
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 
 interface SnippetRequest {
     textSnippet: string;
@@ -9,9 +9,9 @@ interface SnippetRequest {
  
 export const runtime = 'edge';
  
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest, res: NextResponse) {
   try {
-    const { textSnippet } = req.body as SnippetRequest;
+    const { textSnippet } = req.body as unknown as SnippetRequest;
  
     return new ImageResponse(
       (
