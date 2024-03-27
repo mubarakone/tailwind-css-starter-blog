@@ -1,37 +1,31 @@
-import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import path from 'path';
 
-export default async function handler(request: NextRequest) {
+// This is a regular API route, not an Edge function
+export default async function(request: NextApiRequest, response: NextApiResponse) {
     if (request.method !== 'GET') {
-        return new NextResponse('Method Not Allowed', { status: 405 });
+        return response.status(405).send('Method Not Allowed');
     }
 
-    // Extract the filename query parameter
-    const searchParams = request.nextUrl.searchParams;
-    const filename = searchParams.get('filename');
-    
-    if (!filename) {
-        return new NextResponse('Filename is required', { status: 400 });
+    const { filename } = request.query;
+
+    if (!filename || typeof filename !== 'string') {
+        return response.status(400).send('Filename is required');
     }
 
     const filePath = path.join('/tmp', filename);
 
     try {
         if (!fs.existsSync(filePath)) {
-            return new NextResponse('File not found', { status: 404 });
+            return response.status(404).send('File not found');
         }
 
         const fileBuffer = fs.readFileSync(filePath);
-
-        // Create a response with the image content
-        const response = new NextResponse(fileBuffer);
-        response.headers.set('Content-Type', 'image/png'); // Adjust the content type based on your image format
-
-        return response;
+        response.setHeader('Content-Type', 'image/png'); // Adjust the content type as needed
+        return response.send(fileBuffer);
     } catch (error) {
         console.error('Error serving the image:', error);
-        return new NextResponse('Internal Server Error', { status: 500 });
+        return response.status(500).send('Internal Server Error');
     }
 }
