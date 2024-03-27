@@ -1,16 +1,17 @@
-// app/routes/api/image.ts
-
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-export const dynamic = 'force-dynamic'
+export default async function handler(request: NextRequest) {
+    if (request.method !== 'GET') {
+        return new NextResponse('Method Not Allowed', { status: 405 });
+    }
 
-export default async function GET(request: NextRequest): Promise<NextResponse> {
     // Extract the filename query parameter
-    const searchParams = request.nextUrl.searchParams
+    const searchParams = request.nextUrl.searchParams;
     const filename = searchParams.get('filename');
+    
     if (!filename) {
         return new NextResponse('Filename is required', { status: 400 });
     }
@@ -18,20 +19,15 @@ export default async function GET(request: NextRequest): Promise<NextResponse> {
     const filePath = path.join('/tmp', filename);
 
     try {
-        // Ensure the file exists
         if (!fs.existsSync(filePath)) {
             return new NextResponse('File not found', { status: 404 });
         }
 
-        // Read the image file from the temporary directory
         const fileBuffer = fs.readFileSync(filePath);
 
         // Create a response with the image content
         const response = new NextResponse(fileBuffer);
         response.headers.set('Content-Type', 'image/png'); // Adjust the content type based on your image format
-
-        // // Optionally delete the file after serving
-        // fs.unlinkSync(filePath);
 
         return response;
     } catch (error) {
