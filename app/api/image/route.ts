@@ -8,7 +8,7 @@ import path from 'path';
 
 export const runtime = 'edge';
 
-export default async function GET(request: NextRequest): Promise<NextResponse> {
+async function fetchImage(request: NextRequest): Promise<NextResponse> {
     // Extract the filename query parameter
     const searchParams = request.nextUrl.searchParams
     const filename = searchParams.get('filename');
@@ -39,4 +39,8 @@ export default async function GET(request: NextRequest): Promise<NextResponse> {
         console.error('Error serving the image:', error);
         return new NextResponse('Internal Server Error', { status: 500 });
     }
+}
+
+export async function GET(request: NextRequest): Promise<NextResponse> {
+    return fetchImage(request)
 }
