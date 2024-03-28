@@ -8,8 +8,6 @@ import path from 'path';
 
 export const runtime = 'edge';
 
-export const dynamic = 'force-dynamic'
-
 export default async function GET(request: NextRequest): Promise<NextResponse> {
     // Extract the filename query parameter
     const searchParams = request.nextUrl.searchParams
