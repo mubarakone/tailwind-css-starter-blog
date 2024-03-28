@@ -5,9 +5,6 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-
-export const runtime = 'edge';
-
 export async function fetchImage(request: NextRequest): Promise<NextResponse> {
     // Extract the filename query parameter
     const searchParams = request.nextUrl.searchParams
