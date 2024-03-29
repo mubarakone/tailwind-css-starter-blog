@@ -9,7 +9,7 @@ interface SnippetRequest {
  
 export const runtime = 'edge';
  
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest, res: NextResponse) {
   try {
     const { textSnippet } = req.body as unknown as SnippetRequest;
  
