@@ -1,6 +1,7 @@
 import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import app from 'app/firebaseConfig';
 
 let frameID = 1;
 let ImageURL = `https://newspaper.tips/api/image?filename=snippet_${frameID - 1}.png`
@@ -9,7 +10,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body);
 
-  const storage = getStorage();
+  const storage = getStorage(app);
 
   if (isValid) {
     if (message?.button === 1) {

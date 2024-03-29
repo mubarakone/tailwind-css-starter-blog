@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createCanvas } from 'canvas';
 import { fetchMDXContent } from '../fetchMDXContent';
 import { getStorage, ref, uploadBytes } from "firebase/storage";
+import app from 'app/firebaseConfig';
 import fs from 'fs'
 import OpenAI from 'openai';
 import path from 'path'
@@ -82,7 +83,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body);
 
-  const storage = getStorage();
+  const storage = getStorage(app);
 
   if (isValid) {
 //  const frameURL = 
