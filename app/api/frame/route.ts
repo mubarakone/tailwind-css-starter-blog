@@ -1,7 +1,11 @@
 import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 let frameID = 1;
+let ImageURL = '';
+
+const storage = getStorage();
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
@@ -67,6 +71,14 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       );
   }
 
+  await getDownloadURL(ref(storage, `images/${frameID - 1}.png`))
+  .then((url) => {
+    ImageURL = url;
+  })
+  .catch((error) => {
+    console.log(`Images from 'images/${frameID - 1}.png' have not been found`, error)
+  });
+
   return new NextResponse(
     getFrameHtmlResponse({
       buttons: [
@@ -83,7 +95,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       image: {
-        src: `https://newspaper.tips/api/image?filename=snippet_${frameID - 1}.png`,
+        src: ImageURL,
         aspectRatio: '1:1',
       },
       postUrl: `https://newspaper.tips/api/frame`,

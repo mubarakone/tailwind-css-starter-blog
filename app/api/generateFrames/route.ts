@@ -2,6 +2,7 @@ import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/o
 import { NextRequest, NextResponse } from 'next/server';
 import { createCanvas } from 'canvas';
 import { fetchMDXContent } from '../fetchMDXContent';
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 import fs from 'fs'
 import OpenAI from 'openai';
 import path from 'path'
@@ -18,7 +19,7 @@ async function readFileAndGenerateSummary(filePath: string) {
 
     const response = await openai.chat.completions.create({
         messages: [
-            {role: "system", content: "Summarize this entire article into 6 snippets. Each snippet can only be 40 words max."},
+            {role: "system", content: "Summarize this entire article into 6 snippets. Each snippet can only be 60 words max."},
             {role: "user", content: mdxContent},
         ],
         model: "gpt-3.5-turbo"
@@ -47,9 +48,7 @@ function wrapText(context, text, x, y, maxWidth, lineHeight) {
     context.fillText(line, x, y);
 }
 
-async function generateAndSaveImage(textSnippet: string, index: number): Promise<void> {
-    // Define the folder to save images
-    const tempDir = '/tmp';
+async function generateAndSaveImage(textSnippet: string, index: number, storage): Promise<void> {
 
     // const canvas = createCanvas(800, 800); // Adjust size as needed
     // const ctx = canvas.getContext('2d');
@@ -70,14 +69,21 @@ async function generateAndSaveImage(textSnippet: string, index: number): Promise
 
     const buffer = await response.buffer();
     const fileName = `snippet_${index}.png`;
-    const filePath = path.join(tempDir, fileName);
-    fs.writeFileSync(filePath, buffer);
-    console.log(`Image saved to ${filePath}`);
+    const storageRef = ref(storage, 'images/' + fileName);
+    await uploadBytes(storageRef, buffer)
+    .then((snapshot) => {
+        console.log('Uploaded a blob or file!: ', snapshot);
+    })
+    .catch((error) => {
+        console.log('Blob or file failed to upload: ', error);
+    })
 }
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body);
+
+  const storage = getStorage();
 
   if (isValid) {
 //  const frameURL = 
@@ -96,7 +102,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             console.log('textParts: ', textParts)
             // Generate 6 PNG images of the 6 part summary text
             await Promise.all(
-                textParts.map((part, index) => generateAndSaveImage(part, index))
+                textParts.map((part, index) => generateAndSaveImage(part, index, storage))
             );
         }
     }
