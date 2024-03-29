@@ -1,20 +1,18 @@
 import { ImageResponse } from 'next/og';
-// App router includes @vercel/og.
-// No need to install it.
 import { NextRequest, NextResponse } from 'next/server';
 
 interface SnippetRequest {
     textSnippet: string;
-  }
- 
+}
+
 export const runtime = 'edge';
- 
-export async function POST(req: NextRequest, res: NextResponse) {
-  try {
-    const { textSnippet } = req.body as unknown as SnippetRequest;
- 
-    return new ImageResponse(
-      (
+
+export default async function (req: NextRequest, res: NextResponse) {
+    if (req.method === 'POST') {
+        try {
+            const { textSnippet } = req.body as unknown as SnippetRequest;
+
+            return new ImageResponse(
         <div
           style={{
             display: 'flex',
@@ -64,16 +62,16 @@ export async function POST(req: NextRequest, res: NextResponse) {
             {textSnippet}
           </p>
         </div>
-      ),
-      {
-        width: 1080,
-        height: 1080,
-      },
-    );
-  } catch (e) {
-    console.log(`${e.message}`);
-    return new Response(`Failed to generate the image`, {
-      status: 500,
-    });
-  }
+            );
+        } catch (e) {
+            console.log(`${e.message}`);
+            return new Response(`Failed to generate the image`, {
+                status: 500,
+            });
+        }
+    } else {
+        return new Response(`Method Not Allowed`, {
+            status: 405,
+        });
+    }
 }
