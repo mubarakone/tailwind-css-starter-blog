@@ -3,12 +3,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 let frameID = 1;
-
-const storage = getStorage();
+let ImageURL = `https://newspaper.tips/api/image?filename=snippet_${frameID - 1}.png`
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body);
+
+  const storage = getStorage();
 
   if (isValid) {
     if (message?.button === 1) {
@@ -70,7 +71,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       );
   }
 
-  const ImageURL = await getDownloadURL(ref(storage, `images/${frameID - 1}.png`))
+  ImageURL = await getDownloadURL(ref(storage, `images/snippet_${frameID - 1}.png`))
   console.log('ImageURL: ', ImageURL)
 
   return new NextResponse(
