@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 let frameID = 1;
-let ImageURL = '';
 
 const storage = getStorage();
 
@@ -71,13 +70,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       );
   }
 
-  await getDownloadURL(ref(storage, `images/${frameID - 1}.png`))
-  .then((url) => {
-    ImageURL = url;
-  })
-  .catch((error) => {
-    console.log(`Images from 'images/${frameID - 1}.png' have not been found`, error)
-  });
+  const ImageURL = await getDownloadURL(ref(storage, `images/${frameID - 1}.png`))
+  console.log('ImageURL: ', ImageURL)
 
   return new NextResponse(
     getFrameHtmlResponse({
