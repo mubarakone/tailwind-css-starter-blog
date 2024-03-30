@@ -2,7 +2,7 @@ import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/o
 import { NextRequest, NextResponse } from 'next/server';
 import { createCanvas } from 'canvas';
 import { fetchMDXContent } from '../fetchMDXContent';
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import app from 'app/firebaseConfig';
 import fs from 'fs'
 import OpenAI from 'openai';
@@ -108,6 +108,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     }
   }
 
+  const ImageURL = await getDownloadURL(ref(storage, `images/snippet_0.png`))
+
   return new NextResponse(
     getFrameHtmlResponse({
       buttons: [
@@ -124,7 +126,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       image: {
-        src: `https://newspaper.tips/api/image?filename=snippet_0.png`,
+        src: ImageURL,
         aspectRatio: '1:1',
       },
       postUrl: `https://newspaper.tips/api/frame`,
