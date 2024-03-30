@@ -7,7 +7,7 @@ interface SnippetRequest {
 
 export const runtime = 'edge';
 
-export default async function (req: NextRequest, res: NextResponse) {
+export default async function POST(req: NextRequest, res: NextResponse) {
     if (req.method === 'POST') {
         try {
             const { textSnippet } = req.body as unknown as SnippetRequest;
