@@ -73,7 +73,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   }
 
   ImageURL = await getDownloadURL(ref(storage, `images/snippet_${frameID - 1}.png`))
-  console.log('ImageURL: ', ImageURL)
+  console.log('api/frame - ImageURL: ', ImageURL)
 
   return new NextResponse(
     getFrameHtmlResponse({

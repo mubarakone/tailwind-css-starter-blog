@@ -20,7 +20,7 @@ async function readFileAndGenerateSummary(filePath: string) {
 
     const response = await openai.chat.completions.create({
         messages: [
-            {role: "system", content: "Summarize this entire article into 6 snippets. Each snippet can only be 60 words max."},
+            {role: "system", content: "Summarize this entire article into 6 snippets. Each snippet must be at least 40 words, but no more than 60 words."},
             {role: "user", content: mdxContent},
         ],
         model: "gpt-3.5-turbo"
@@ -109,6 +109,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   }
 
   const ImageURL = await getDownloadURL(ref(storage, `images/snippet_0.png`))
+  console.log('api/generatedFrames - ImageURL: ', ImageURL)
 
   return new NextResponse(
     getFrameHtmlResponse({
