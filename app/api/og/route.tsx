@@ -11,7 +11,8 @@ export const runtime = 'edge';
  
 export async function POST(req: NextRequest, res: NextResponse) {
   try {
-    const { textSnippet } = req.body as unknown as SnippetRequest;
+    const requestBody = await req.json();
+    const { textSnippet } = requestBody as SnippetRequest;
  
     return new ImageResponse(
       (
