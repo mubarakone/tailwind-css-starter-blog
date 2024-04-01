@@ -9,6 +9,9 @@ import OpenAI from 'openai';
 import path from 'path'
 import fetch from 'node-fetch';
 
+const imageSourceURL = 'http://34.36.130.28/'
+let ImageURL = ''
+
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
     organization: process.env.NEXT_PUBLIC_OPENAI_ORGANIZATION,
@@ -70,12 +73,15 @@ async function generateAndSaveImage(textSnippet: string, index: number, storage)
 
     const metadata = {
         contentType: 'image/png',
+        contentDisposition: 'inline',
       };
 
     const buffer = await response.buffer();
     const fileName = `snippet_${index}.png`;
+
     const storageRef = ref(storage, 'images/' + fileName);
     const snapshot = await uploadBytes(storageRef, buffer, metadata)
+
     if (snapshot) {
         console.log('Uploaded a blob or file!: ', snapshot);
     } else {
@@ -112,11 +118,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     }
   }
 
-  const ImageURL = await getDownloadURL(ref(storage, `images/snippet_0.png`))
-  console.log('api/generatedFrames - ImageURL: ', ImageURL)
-
   return new NextResponse(
-    getFrameHtmlResponse({
+    getFrameHtmlResponse({ 
       buttons: [
         {
           action: 'post',
@@ -131,7 +134,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       image: {
-        src: ImageURL,
+        src: imageSourceURL + 'images/snippet_0.png',
         aspectRatio: '1:1',
       },
       postUrl: `https://newspaper.tips/api/frame`,

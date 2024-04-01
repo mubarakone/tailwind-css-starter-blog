@@ -5,12 +5,11 @@ import app from 'app/firebaseConfig';
 
 let frameID = 1;
 let ImageURL = `https://newspaper.tips/api/image?filename=snippet_${frameID - 1}.png`
+const imageSourceURL = 'http://34.36.130.28/'
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body);
-
-  const storage = getStorage(app);
 
   if (isValid) {
     if (message?.button === 1) {
@@ -72,9 +71,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       );
   }
 
-  ImageURL = await getDownloadURL(ref(storage, `images/snippet_${frameID - 1}.png`))
-  console.log('api/frame - ImageURL: ', ImageURL)
-
   return new NextResponse(
     getFrameHtmlResponse({
       buttons: [
@@ -91,7 +87,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       image: {
-        src: ImageURL,
+        src: imageSourceURL + `images/${frameID - 1}.png`,
         aspectRatio: '1:1',
       },
       postUrl: `https://newspaper.tips/api/frame`,
