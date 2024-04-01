@@ -70,7 +70,6 @@ async function generateAndSaveImage(textSnippet: string, index: number, storage)
 
     const metadata = {
         contentType: 'image/png',
-        contentDisposition: 'inline',
       };
 
     const buffer = await response.buffer();
