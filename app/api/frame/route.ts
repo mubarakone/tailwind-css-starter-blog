@@ -4,7 +4,7 @@ import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import app from 'app/firebaseConfig';
 
 let frameID = 1;
-let ImageURL = `https://newspaper.tips/api/image?filename=snippet_${frameID - 1}.png`
+// let ImageURL = `https://newspaper.tips/api/image?filename=snippet_${frameID - 1}.png`
 const imageSourceURL = 'http://34.36.130.28/'
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
