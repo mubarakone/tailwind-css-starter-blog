@@ -77,9 +77,12 @@ async function generateAndSaveImage(textSnippet: string, index: number, storage)
     const fileName = `snippet_${index}.png`;
 
     const storageRef = ref(storage, 'images/' + fileName);
-    await uploadBytes(storageRef, buffer, metadata)
-
-    console.log('Uploaded a blob or file!: ');
+    const snapshot = await uploadBytes(storageRef, buffer, metadata)
+    if (snapshot) {
+        console.log('Uploaded a blob or file!: ', snapshot);
+    } else {
+        console.log('Upload failed')
+    }
 }
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
@@ -110,6 +113,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         }
     }
   }
+
+  // Include a reasonable delay to allow the cloud service to process the image
+  const processingDelay = 2000; // Example: 2 seconds delay
+  await new Promise(resolve => setTimeout(resolve, processingDelay));
 
   return new NextResponse(
     getFrameHtmlResponse({ 
