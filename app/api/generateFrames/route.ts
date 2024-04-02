@@ -10,7 +10,6 @@ import path from 'path'
 import fetch from 'node-fetch';
 
 const imageSourceURL = 'http://34.36.130.28/'
-let ImageURL = ''
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
