@@ -5,7 +5,6 @@ import app from 'app/firebaseConfig';
 
 let frameID = 1;
 // let ImageURL = `https://newspaper.tips/api/image?filename=snippet_${frameID - 1}.png`
-const imageSourceURL = 'http://34.36.130.28/'
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
@@ -87,7 +86,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       image: {
-        src: imageSourceURL + `images/${frameID - 1}.png`,
+        src: `http://34.36.130.28/images/${frameID - 1}.png`,
         aspectRatio: '1:1',
       },
       postUrl: `https://newspaper.tips/api/frame`,

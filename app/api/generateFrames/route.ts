@@ -9,8 +9,6 @@ import OpenAI from 'openai';
 import path from 'path'
 import fetch from 'node-fetch';
 
-const imageSourceURL = 'http://34.36.130.28/'
-
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
     organization: process.env.NEXT_PUBLIC_OPENAI_ORGANIZATION,
@@ -31,25 +29,25 @@ async function readFileAndGenerateSummary(filePath: string) {
     return response.choices[0].message.content;
 }
 
-function wrapText(context, text, x, y, maxWidth, lineHeight) {
-    const words = text.split(' ');
-    let line = '';
+// function wrapText(context, text, x, y, maxWidth, lineHeight) {
+//     const words = text.split(' ');
+//     let line = '';
 
-    for(let n = 0; n < words.length; n++) {
-        const testLine = line + words[n] + ' ';
-        const metrics = context.measureText(testLine);
-        const testWidth = metrics.width;
-        if (testWidth > maxWidth && n > 0) {
-            context.fillText(line, x, y);
-            line = words[n] + ' ';
-            y += lineHeight;
-        }
-        else {
-            line = testLine;
-        }
-    }
-    context.fillText(line, x, y);
-}
+//     for(let n = 0; n < words.length; n++) {
+//         const testLine = line + words[n] + ' ';
+//         const metrics = context.measureText(testLine);
+//         const testWidth = metrics.width;
+//         if (testWidth > maxWidth && n > 0) {
+//             context.fillText(line, x, y);
+//             line = words[n] + ' ';
+//             y += lineHeight;
+//         }
+//         else {
+//             line = testLine;
+//         }
+//     }
+//     context.fillText(line, x, y);
+// }
 
 async function generateAndSaveImage(textSnippet: string, index: number, storage): Promise<void> {
 
@@ -129,7 +127,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       image: {
-        src: imageSourceURL + 'images/snippet_0.png',
+        src: 'http://34.36.130.28/images/snippet_0.png',
         aspectRatio: '1:1',
       },
       postUrl: `https://newspaper.tips/api/frame`,
