@@ -114,9 +114,12 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     }
   }
 
-  // Include a reasonable delay to allow the cloud service to process the image
-  const processingDelay = 2000; // Example: 2 seconds delay
-  await new Promise(resolve => setTimeout(resolve, processingDelay));
+//   // Include a reasonable delay to allow the cloud service to process the image
+//   const processingDelay = 2000; // Example: 2 seconds delay
+//   await new Promise(resolve => setTimeout(resolve, processingDelay));
+
+  const ImageURL = await getDownloadURL(ref(storage, `images/snippet_0.png`))
+  console.log('api/generatedFrames - ImageURL: ', ImageURL)
 
   return new NextResponse(
     getFrameHtmlResponse({ 
