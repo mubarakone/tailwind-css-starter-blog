@@ -79,7 +79,13 @@ async function generateAndSaveImage(textSnippet: string, index: number, storage)
     const fileName = `snippet_${index}.png`;
 
     const storageRef = ref(storage, 'images/' + fileName);
-    await uploadBytes(storageRef, buffer, metadata)
+    const snapshot = await uploadBytes(storageRef, buffer, metadata)
+
+    if (snapshot) {
+        console.log('Uploaded a blob or file!: ', snapshot);
+    } else {
+        console.log('Uploading Image has failed')
+    }
 }
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
