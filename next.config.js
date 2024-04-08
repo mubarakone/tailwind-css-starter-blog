@@ -1,22 +1,27 @@
 // @ts-nocheck
 
-// const withPWA = require("@ducanh2912/next-pwa").default({
-//   dest: "public",
-//   workboxOptions: "production",
-// });
-
-if (
-  process.env.LD_LIBRARY_PATH == null ||
-  !process.env.LD_LIBRARY_PATH.includes(
-    `${process.env.PWD}/node_modules/canvas/build/Release:`,
-  )
-) {
-  process.env.LD_LIBRARY_PATH = `${
-    process.env.PWD
-  }/node_modules/canvas/build/Release:${process.env.LD_LIBRARY_PATH || ''}`;
-}
-
 const { GenerateSW } = require('workbox-webpack-plugin');
+
+const withPWA = require("@ducanh2912/next-pwa").default({
+  dest: "public",
+  workboxOptions: {
+    mode: "production",
+    GenerateSW: GenerateSW,
+  },
+});
+
+// if (
+//   process.env.LD_LIBRARY_PATH == null ||
+//   !process.env.LD_LIBRARY_PATH.includes(
+//     `${process.env.PWD}/node_modules/canvas/build/Release:`,
+//   )
+// ) {
+//   process.env.LD_LIBRARY_PATH = `${
+//     process.env.PWD
+//   }/node_modules/canvas/build/Release:${process.env.LD_LIBRARY_PATH || ''}`;
+// }
+
+// const { GenerateSW } = require('workbox-webpack-plugin');
 
 const { withContentlayer } = require('next-contentlayer')
 
@@ -136,6 +141,7 @@ const nextConfig = {
 };
 
 module.exports = withPlugins([
+  [withPWA],
   [withContentlayer],
   [withBundleAnalyzer],
   [withImages],

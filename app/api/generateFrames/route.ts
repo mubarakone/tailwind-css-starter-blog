@@ -1,13 +1,12 @@
 import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
-import { createCanvas } from 'canvas';
 import { fetchMDXContent } from '../fetchMDXContent';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import app from 'app/firebaseConfig';
-import fs from 'fs'
 import OpenAI from 'openai';
-import path from 'path'
 import fetch from 'node-fetch';
+
+export const runtime = 'edge';
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -29,35 +28,7 @@ async function readFileAndGenerateSummary(filePath: string) {
     return response.choices[0].message.content;
 }
 
-// function wrapText(context, text, x, y, maxWidth, lineHeight) {
-//     const words = text.split(' ');
-//     let line = '';
-
-//     for(let n = 0; n < words.length; n++) {
-//         const testLine = line + words[n] + ' ';
-//         const metrics = context.measureText(testLine);
-//         const testWidth = metrics.width;
-//         if (testWidth > maxWidth && n > 0) {
-//             context.fillText(line, x, y);
-//             line = words[n] + ' ';
-//             y += lineHeight;
-//         }
-//         else {
-//             line = testLine;
-//         }
-//     }
-//     context.fillText(line, x, y);
-// }
-
 async function generateAndSaveImage(textSnippet: string, index: number, storage): Promise<void> {
-
-    // const canvas = createCanvas(800, 800); // Adjust size as needed
-    // const ctx = canvas.getContext('2d');
-    // ctx.fillStyle = '#fff';
-    // ctx.fillRect(0, 0, canvas.width, canvas.height);
-    // ctx.fillStyle = '#000';
-    // ctx.font = '56px';
-    // wrapText(ctx, textSnippet, 20, 60, 780, 55); // You might need to adjust maxWidth and lineHeight
 
     const apiUrl = 'https://newspaper.tips/api/og'; // Adjust this URL to your actual API endpoint
     const response = await fetch(apiUrl, {
@@ -92,8 +63,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const storage = getStorage(app);
 
   if (isValid) {
-//  const frameURL = 
-//  const filePath = `data/blog/${frameURL}.mdx`
     const filePath = 'https://newspaper.tips/data/blog/release-of-tailwind-nextjs-starter-blog-v2.0.mdx'
     console.log('filePath is: ', filePath)
     // Read the file
@@ -113,14 +82,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         }
     }
   }
-
-//   // Include a reasonable delay to allow the cloud service to process the image
-//   const processingDelay = 2000; // Example: 2 seconds delay
-//   await new Promise(resolve => setTimeout(resolve, processingDelay));
-
-//   // Return a promise if the image is stored in the database
-//   const ImageURL = await getDownloadURL(ref(storage, `images/snippet_0.png`))
-//   console.log('api/generatedFrames - ImageURL: ', ImageURL)
 
   return new NextResponse(
     getFrameHtmlResponse({ 
