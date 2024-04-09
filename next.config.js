@@ -4,10 +4,6 @@ const { GenerateSW } = require('workbox-webpack-plugin');
 
 const withPWA = require("@ducanh2912/next-pwa").default({
   dest: "public",
-  workboxOptions: {
-    mode: "production",
-    GenerateSW: "exclude",
-  },
 });
 
 // if (
