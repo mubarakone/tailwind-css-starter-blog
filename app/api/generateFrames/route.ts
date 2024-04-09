@@ -6,8 +6,6 @@ import app from 'app/firebaseConfig';
 import OpenAI from 'openai';
 import fetch from 'node-fetch';
 
-export const runtime = 'edge';
-
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
     organization: process.env.NEXT_PUBLIC_OPENAI_ORGANIZATION,
@@ -44,7 +42,7 @@ async function generateAndSaveImage(textSnippet: string, index: number, storage)
         contentDisposition: 'inline',
       };
 
-    const buffer = await response.arrayBuffer();
+    const buffer = await response.buffer();
     const fileName = `snippet_${index}.png`;
 
     const storageRef = ref(storage, 'images/' + fileName);
