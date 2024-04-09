@@ -44,7 +44,7 @@ async function generateAndSaveImage(textSnippet: string, index: number, storage)
         contentDisposition: 'inline',
       };
 
-    const buffer = await response.buffer();
+    const buffer = await response.arrayBuffer();
     const fileName = `snippet_${index}.png`;
 
     const storageRef = ref(storage, 'images/' + fileName);
