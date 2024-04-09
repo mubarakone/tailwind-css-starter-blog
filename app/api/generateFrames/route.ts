@@ -6,6 +6,9 @@ import app from 'app/firebaseConfig';
 import OpenAI from 'openai';
 import fetch from 'node-fetch';
 
+let generatingStarted = false;
+let finalImageSaved = false;
+
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
     organization: process.env.NEXT_PUBLIC_OPENAI_ORGANIZATION,
@@ -52,15 +55,17 @@ async function generateAndSaveImage(textSnippet: string, index: number, storage)
     } else {
         console.log('Upload failed')
     }
+
+    if ((index == 6) && snapshot) {
+        finalImageSaved = true;
+    }
 }
 
-async function getResponse(req: NextRequest): Promise<NextResponse> {
-  const body: FrameRequest = await req.json();
-  const { isValid, message } = await getFrameMessage(body);
+async function generateFrame(): Promise<void> {
+    generatingStarted = true;
 
-  const storage = getStorage(app);
-
-  if (isValid) {
+    const storage = getStorage(app);
+    
     const filePath = 'https://newspaper.tips/data/blog/release-of-tailwind-nextjs-starter-blog-v2.0.mdx'
     console.log('filePath is: ', filePath)
     // Read the file
@@ -78,6 +83,35 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                 textParts.map((part, index) => generateAndSaveImage(part, index, storage))
             );
         }
+    }
+
+}
+
+async function getResponse(req: NextRequest): Promise<NextResponse> {
+  const body: FrameRequest = await req.json();
+  const { isValid, message } = await getFrameMessage(body);
+
+  if (isValid) {
+    if (!generatingStarted) {
+        generateFrame()
+    }
+
+    if (!finalImageSaved) {
+        return new NextResponse(
+            getFrameHtmlResponse({ 
+              buttons: [
+                {
+                  action: 'post',
+                  label: 'Refresh',
+                },
+              ],
+              image: {
+                src: 'https://newspaper.tips/generating-summary.png',
+                aspectRatio: '1:1',
+              },
+              postUrl: `https://newspaper.tips/api/generateFrames`,
+            }),
+          );
     }
   }
 
