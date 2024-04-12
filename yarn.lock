@@ -6747,6 +6747,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@upstash/qstash@npm:^2.4.3":
+  version: 2.4.3
+  resolution: "@upstash/qstash@npm:2.4.3"
+  dependencies:
+    crypto-js: ">=4.2.0"
+    jose: ^ 5.2.3
+  checksum: 12e4faa7d790a67dec697b8720afb7f0899ba4a1e0fe26c3185450c1bcd216e87ed8e01cb9d184ede126a762c46ba11e74c3ac28091550d81f2a5f0375b28839
+  languageName: node
+  linkType: hard
+
 "@wagmi/connectors@npm:3.1.10":
   version: 3.1.10
   resolution: "@wagmi/connectors@npm:3.1.10"
@@ -9585,7 +9595,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"crypto-js@npm:^4.2.0":
+"crypto-js@npm:>=4.2.0, crypto-js@npm:^4.2.0":
   version: 4.2.0
   resolution: "crypto-js@npm:4.2.0"
   checksum: f051666dbc077c8324777f44fbd3aaea2986f198fe85092535130d17026c7c2ccf2d23ee5b29b36f7a4a07312db2fae23c9094b644cc35f7858b1b4fcaf27774
@@ -13726,6 +13736,13 @@ __metadata:
   bin:
     jiti: bin/jiti.js
   checksum: a7bd5d63921c170eaec91eecd686388181c7828e1fa0657ab374b9372bfc1f383cf4b039e6b272383d5cb25607509880af814a39abdff967322459cca41f2961
+  languageName: node
+  linkType: hard
+
+"jose@npm:^ 5.2.3":
+  version: 5.2.4
+  resolution: "jose@npm:5.2.4"
+  checksum: 81e1f4494f406debd14392975327f0daa8b88ff09c83f2fe94754dcd7cfdefdb1adf785b2ec7481751927e609d342581cd41cb444628ef62fca423facebcd280
   languageName: node
   linkType: hard
 
@@ -19565,6 +19582,7 @@ __metadata:
     "@types/react": ^18.2.14
     "@typescript-eslint/eslint-plugin": ^6.1.0
     "@typescript-eslint/parser": ^6.1.0
+    "@upstash/qstash": ^2.4.3
     autoprefixer: ^10.4.13
     canvas: latest
     contentlayer: ^0.3.4

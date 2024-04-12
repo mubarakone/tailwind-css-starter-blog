@@ -1,118 +1,37 @@
 import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
-import { fetchMDXContent } from '../fetchMDXContent';
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import app from 'app/firebaseConfig';
-import OpenAI from 'openai';
-import fetch from 'node-fetch';
+import { Client } from "@upstash/qstash";
 
-let generatingStarted = false;
-let finalImageSaved = false;
+let lastImageUploaded = false;
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-    organization: process.env.NEXT_PUBLIC_OPENAI_ORGANIZATION,
-});
-
-async function readFileAndGenerateSummary(filePath: string) {
-    // const fullPath = path.join(process.cwd(), filePath);
-    const mdxContent = await fetchMDXContent(filePath)
-
-    const response = await openai.chat.completions.create({
-        messages: [
-            {role: "system", content: "Summarize this entire article into 6 snippets. Each snippet must be at least 40 words, but no more than 60 words."},
-            {role: "user", content: mdxContent},
-        ],
-        model: "gpt-3.5-turbo"
-    });
-
-    return response.choices[0].message.content;
-}
-
-async function generateAndSaveImage(textSnippet: string, index: number, storage): Promise<void> {
-
-    const apiUrl = 'https://newspaper.tips/api/og'; // Adjust this URL to your actual API endpoint
-    const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ textSnippet })
-    });
-
-    const metadata = {
-        contentType: 'image/png',
-        contentDisposition: 'inline',
-      };
-
-    const buffer = await response.buffer();
-    const fileName = `snippet_${index}.png`;
-
-    const storageRef = ref(storage, 'images/' + fileName);
-    const snapshot = await uploadBytes(storageRef, buffer, metadata)
-    if (snapshot) {
-        console.log('Uploaded a blob or file!: ', snapshot);
-    } else {
-        console.log('Upload failed')
-    }
-
-    if ((index == 6) && snapshot) {
-        finalImageSaved = true;
-    }
-}
-
-async function generateFrame(): Promise<void> {
-    generatingStarted = true;
-
-    const storage = getStorage(app);
-    
-    const filePath = 'https://newspaper.tips/data/blog/release-of-tailwind-nextjs-starter-blog-v2.0.mdx'
-    console.log('filePath is: ', filePath)
-    // Read the file
-    // Generate the summary
-    const summary = await readFileAndGenerateSummary(filePath);
-
-    if (summary) {
-      console.log('summary: ', summary)
-      // Split summary into 6 parts
-      const textParts = summary.split(/\n(?=\d+\. )/).map(part => part.replace(/^\d+\. /, ''));
-        if (textParts) {
-            console.log('textParts: ', textParts)
-            // Generate 6 PNG images of the 6 part summary text
-            await Promise.all(
-                textParts.map((part, index) => generateAndSaveImage(part, index, storage))
-            );
-        }
-    }
-
-}
+const qstashClient = new Client({
+    // Add your token to a .env file
+    token: process.env.NEXT_PUBLIC_QSTASH_TOKEN!,
+  });
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body);
 
-  if (isValid) {
-    if (!generatingStarted) {
-        generateFrame()
-    }
+   const startBackgroundJob = async () => {
+    try {
+        const response = await qstashClient.publishJSON({
+            url: "https://newspaper.tips/api/handleGenerateFrames",
+            callback: "https://newspaper.tips/api/handleCallback"
+          });
 
-    if (!finalImageSaved) {
-        return new NextResponse(
-            getFrameHtmlResponse({ 
-              buttons: [
-                {
-                  action: 'post',
-                  label: 'Refresh',
-                },
-              ],
-              image: {
-                src: 'https://newspaper.tips/generating-summary.png',
-                aspectRatio: '1:1',
-              },
-              postUrl: `https://newspaper.tips/api/generateFrames`,
-            }),
-          );
+        if (response) {
+            console.log("Background job began!")
+            return true;
+        }
+    } catch (error) {
+        console.log("Background job failed to start")
+        return false
     }
+   }
+
+  if (isValid) {
+    startBackgroundJob()
   }
 
   return new NextResponse(
@@ -120,23 +39,17 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       buttons: [
         {
           action: 'post',
-          label: '⬅️ Back',
-        },
-        {
-          label: `1/6`,
-        },
-        {
-          action: 'post',
-          label: 'Next ➡️',
+          label: '🔄 Refresh',
         },
       ],
       image: {
-        src: 'http://34.36.130.28/images/snippet_0.png',
+        src: 'https://newspaper.tips/generating-summary.png',
         aspectRatio: '1:1',
       },
-      postUrl: `https://newspaper.tips/api/frame`,
+      postUrl: `https://newspaper.tips/api/handleCallback`,
     }),
   );
+
 }
 
 export async function POST(req: NextRequest): Promise<Response> {
