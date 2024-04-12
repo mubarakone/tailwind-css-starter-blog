@@ -2,8 +2,6 @@ import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/o
 import { NextRequest, NextResponse } from 'next/server';
 import { Client } from "@upstash/qstash";
 
-let lastImageUploaded = false;
-
 const qstashClient = new Client({
     // Add your token to a .env file
     token: process.env.NEXT_PUBLIC_QSTASH_TOKEN!,

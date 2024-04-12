@@ -3,7 +3,7 @@ import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/o
 
 let QStashCallbackCalled = false;
 
-async function isFrameRequest(obj: any): Promise<Boolean> {
+async function isFrameRequest(obj): Promise<boolean> {
     const body: FrameRequest = obj;
     const { isValid } = await getFrameMessage(body)
 
@@ -16,7 +16,7 @@ async function isFrameRequest(obj: any): Promise<Boolean> {
 
 async function handleCallback(req: NextRequest): Promise<NextResponse> {
     console.log('QStash Callback: ', QStashCallbackCalled)
-    
+
     const body = await req.json();
 
     try {
@@ -49,7 +49,7 @@ async function handleCallback(req: NextRequest): Promise<NextResponse> {
     }
 }
 
-async function handleFrameRequest(obj: any): Promise<NextResponse> {
+async function handleFrameRequest(obj): Promise<NextResponse> {
     const body: FrameRequest = obj;
     const { isValid } = await getFrameMessage(body);
 
