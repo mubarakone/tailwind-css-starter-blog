@@ -11,7 +11,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body);
 
-   const startBackgroundJob = async () => {
+   async function startBackgroundJob() {
     try {
         const response = await qstashClient.publishJSON({
             url: "https://newspaper.tips/api/handleGenerateFrames",

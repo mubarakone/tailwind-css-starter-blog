@@ -74,7 +74,7 @@ async function generateFrames(): Promise<NextResponse> {
                   textParts.map((part, index) => generateAndSaveImage(part, index, storage))
               );
 
-              return new NextResponse(JSON.stringify({ result: true }), {
+              return new NextResponse(JSON.stringify({ result: 'Images generated and saved' }), {
                 status: 200,
                 headers: {
                     'Content-Type': 'application/json',

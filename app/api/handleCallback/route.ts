@@ -29,7 +29,7 @@ async function handleCallback(req: NextRequest): Promise<NextResponse> {
 
             QStashCallbackCalled = true;
 
-            return new NextResponse(JSON.stringify({ result: QStashCallbackCalled }), {
+            return new NextResponse(JSON.stringify({ result: 'Callback returns true' }), {
                 status: 200,
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ async function handleCallback(req: NextRequest): Promise<NextResponse> {
 
     } catch (error) {
 
-        return new NextResponse(JSON.stringify({ error: 'Bad Request' }), {
+        return new NextResponse(JSON.stringify({ error: 'JSON Payload does not return a FrameRequest or Callback' }), {
             status: 400,
             headers: {
                 'Content-Type': 'application/json',
