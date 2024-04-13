@@ -30,6 +30,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   if (isValid) {
     startBackgroundJob()
+    console.log("Background job began!")
   }
 
   return new NextResponse(

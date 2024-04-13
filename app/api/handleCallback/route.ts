@@ -15,8 +15,6 @@ async function isFrameRequest(obj): Promise<boolean> {
 }
 
 async function handleCallback(req: NextRequest): Promise<NextResponse> {
-    console.log('QStash Callback: ', QStashCallbackCalled)
-
     const body = await req.json();
 
     try {
@@ -29,7 +27,7 @@ async function handleCallback(req: NextRequest): Promise<NextResponse> {
 
             QStashCallbackCalled = true;
 
-            return new NextResponse(JSON.stringify({ result: 'Callback returns true' }), {
+            return new NextResponse(JSON.stringify({ success: true, message: 'Callback returns true' }), {
                 status: 200,
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,8 +37,8 @@ async function handleCallback(req: NextRequest): Promise<NextResponse> {
 
     } catch (error) {
 
-        return new NextResponse(JSON.stringify({ error: 'JSON Payload does not return a FrameRequest or Callback' }), {
-            status: 400,
+        return new NextResponse(JSON.stringify({ success: false, message: 'JSON Payload does not return a FrameRequest or Callback' }), {
+            status: 404,
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -54,6 +52,7 @@ async function handleFrameRequest(obj): Promise<NextResponse> {
     const { isValid } = await getFrameMessage(body);
 
     if (isValid) {
+        console.log('QStash Callback: ', QStashCallbackCalled)
 
         if (QStashCallbackCalled) {
             return new NextResponse(

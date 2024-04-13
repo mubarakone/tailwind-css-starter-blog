@@ -74,7 +74,7 @@ async function generateFrames(): Promise<NextResponse> {
                   textParts.map((part, index) => generateAndSaveImage(part, index, storage))
               );
 
-              return new NextResponse(JSON.stringify({ result: 'Images generated and saved' }), {
+              return new NextResponse(JSON.stringify({ success: true, message: 'Images generated and saved' }), {
                 status: 200,
                 headers: {
                     'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ async function generateFrames(): Promise<NextResponse> {
 
             } else {
 
-                return new NextResponse(JSON.stringify({ error: 'Image not generated and saved' }), {
+                return new NextResponse(JSON.stringify({ success: false, error: 'Image not generated and saved' }), {
                     status: 400,
                     headers: {
                         'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ async function generateFrames(): Promise<NextResponse> {
 
             }
         } else {
-            return new NextResponse(JSON.stringify({ error: 'Summary not generated' }), {
+            return new NextResponse(JSON.stringify({ success: false, error: 'Summary not generated' }), {
                 status: 400,
                 headers: {
                     'Content-Type': 'application/json',
