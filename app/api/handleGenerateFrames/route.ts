@@ -80,25 +80,15 @@ async function generateFrames(): Promise<NextResponse> {
                     'Content-Type': 'application/json',
                 },
               });
-
-            } else {
-
-                return new NextResponse(JSON.stringify({ success: false, error: 'Image not generated and saved' }), {
-                    status: 400,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-
             }
-        } else {
-            return new NextResponse(JSON.stringify({ success: false, error: 'Summary not generated' }), {
-                status: 400,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
         }
+
+        return new NextResponse(JSON.stringify({ success: false, message: 'Images failed to generate and save' }), {
+            status: 400,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+          });
 
     } catch (error) {
         // Log the error or handle it as needed
