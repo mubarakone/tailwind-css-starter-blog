@@ -25,23 +25,14 @@ export const SubscriptionAd = () => {
             <p className="text-xl font-extrabold text-amber-200 mb-4 text-shadow-black-lg text-stroke-0 text-stroke-color-black">
               Just give a small tip to read your favorite articles. Please have at least <span className='text-white'>$0.00</span> in your wallet to continue reading.
             </p>
-            {address
-              ? <button 
+                <button 
                   disabled={isSuccess} 
                   onClick={openModal} 
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline space-x-1"
                 >
                   <Image className="inline-block" alt='tip' src={'/coin-vertical-svgrepo-com (1).svg'} width={24} height={24} />
-                  
                   <span className="inline-block">$0.01</span>
                 </button>
-              : <div className='flex justify-center'>
-                  <Suspense fallback={<p>Loading wallet...</p>}>
-                    <DynamicWidget innerButtonComponent={'Log In to make a tip!'} />
-                  </Suspense>
-                  
-                </div> 
-            }
           </div>
         </div>
       );      
